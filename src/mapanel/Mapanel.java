@@ -1,5 +1,7 @@
 package mapanel;
 
+import sprites.Player;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -49,6 +51,7 @@ public class Mapanel extends JPanel implements ActionListener {
             case "PLAY":
                 urlFondo = this.getClass().getResource("images/lvl1.png");
                 imgFondo = new ImageIcon(urlFondo).getImage();
+                new Player(this).drawCharacter((Graphics2D) getGraphics());
                 this.repaint();
                 break;
             case "lv2":
