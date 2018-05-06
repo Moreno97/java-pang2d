@@ -1,22 +1,27 @@
 package pang2d;
 
-import mapanel.Mapanel;
+import mapanel.Mapcanvas;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class Space extends JFrame {
-    Mapanel p;
+
+    Mapcanvas mpc;
 
     public Space(){
-        this.setBounds(0,0,853,571);
-        this.setTitle("Pang Vrs. DAM");
-        this.setResizable(false);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLocationRelativeTo(null);
-        p=new Mapanel();
-        this.getContentPane().add(p);
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
+        Container panel;
+        setBounds(0,0,853,571);
+        setTitle("Pang Vrs. DAM");
+        setResizable(false);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setLayout(new GridLayout());
+
+        panel=getContentPane();
+        panel.add(mpc);
+        setVisible(true);
+        new Thread(mpc).start();
 
     }
 }
