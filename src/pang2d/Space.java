@@ -10,6 +10,11 @@ public class Space extends JFrame {
     Mapcanvas mpc;
 
     public Space(){
+        mpc=new Mapcanvas();
+        initMap();
+
+    }
+    private void initMap(){
         Container panel;
         setBounds(0,0,853,571);
         setTitle("Pang Vrs. DAM");
@@ -22,6 +27,5 @@ public class Space extends JFrame {
         panel.add(mpc);
         setVisible(true);
         new Thread(mpc).start();
-
     }
 }
