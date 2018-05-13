@@ -17,6 +17,5 @@ public class Space extends JFrame {
         this.getContentPane().add(p);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
-
     }
 }
