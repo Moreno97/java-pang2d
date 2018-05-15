@@ -1,5 +1,7 @@
 package mapanel;
 
+import controller.InputHandler;
+import gfx.SpriteSheetHandler;
 import sprites.Player;
 
 import javax.swing.*;
@@ -14,11 +16,13 @@ public class Mapanel extends JPanel implements ActionListener {
     private URL urlFondo;
     private JButton jbStart;
     private Integer level;
+    private Player player;
 
     public Mapanel() {
         preInit();
         initComponents();
-
+        player = new Player(this);
+        addKeyListener(new InputHandler(player, this));
     }
 
     private void preInit() {
@@ -29,6 +33,7 @@ public class Mapanel extends JPanel implements ActionListener {
     public void paint(Graphics g) {
         g.drawImage(imgFondo, 0, 0, getWidth(), getHeight(), this);
         setOpaque(false);
+        setFocusable(true);
         super.paintComponent(g);
     }
 
@@ -51,8 +56,7 @@ public class Mapanel extends JPanel implements ActionListener {
             case "PLAY":
                 urlFondo = this.getClass().getResource("images/lvl1.png");
                 imgFondo = new ImageIcon(urlFondo).getImage();
-                new Player(this).drawCharacter((Graphics2D) getGraphics());
-                this.repaint();
+                player.drawCharacter((Graphics2D) getGraphics());
                 break;
             case "lv2":
                 urlFondo = this.getClass().getResource("images/lvl2.png");

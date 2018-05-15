@@ -12,10 +12,9 @@ public class SpriteSheetHandler {
     private int[] pixels;
     BufferedImage image;
 
-    public SpriteSheetHandler() {
-
+    public SpriteSheetHandler(String path) {
         try {
-            image = ImageIO.read(new File("res/player16x16.png"));
+            image = ImageIO.read(new File(path));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -35,9 +34,6 @@ public class SpriteSheetHandler {
             );
         }
 
-        for (int i = 0; i < 20; i++) {
-            System.out.println(pixels[i]);
-        }
     }
 
     public BufferedImage crop(int col, int row, int w, int h) {

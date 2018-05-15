@@ -1,5 +1,6 @@
 package sprites;
 
+import gfx.SpriteSheetHandler;
 import mapanel.Mapanel;
 
 import javax.swing.*;
@@ -7,12 +8,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Player implements Runnable, ActionListener {
+public class Player {
 
-    // spritesMap HashMap
     // life int
     // weapon: Bubble
-    // positionX: int
 
     private int life;
     private int dx;
@@ -23,63 +22,16 @@ public class Player implements Runnable, ActionListener {
         this.mapanel = mapanel;
         this.life = 3;
         this.dx = mapanel.getWidth() / 2;
-        this.character = new ImageIcon(getClass().getResource("resources/right.png"));
+        this.character = new ImageIcon(new SpriteSheetHandler("res/player16x16.png").crop(1, 0, 16, 16));
     }
 
     public void drawCharacter(Graphics2D gr2D) {
-        gr2D.drawImage(this.getCharacter().getImage(), 100, 100, 100, 100, null);
+        gr2D.drawImage(character.getImage(), dx - 20, mapanel.getBounds().height - 50, 48, 48, null);
     }
 
-    public void moveLeft() {
-        setCharacter(new ImageIcon(getClass().getResource("resources/left.png")));
-        this.dx = dx - 20;
-    }
-
-    public void moveRight() {
-        setCharacter(new ImageIcon(getClass().getResource("resources/right.png")));
+    public void toRight(Graphics2D gr2D) {
         this.dx = dx + 20;
-    }
-
-//    public void moveUp() {
-//        setCharacter(new ImageIcon(getClass().getResource("/resources/up-look.png")));
-//        this.dy = dy - 20;
-//    }
-//
-//    public void moveDown() {
-//        setCharacter(new ImageIcon(getClass().getResource("/resources/down-look.png")));
-//        this.dy = dy + 20;
-//    }
-
-//    public void jump()  {
-//        int i = 0;
-//        int z = this.dy;
-//
-//        while (i <= 8) {
-//            this.dy = z + 3 * i * i - 24 * i;
-//            try {
-//                Thread.sleep(30);
-//            } catch (InterruptedException ex) {
-//                Logger.getLogger(CharacterGame.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//            i = i + 1;
-//        }
-//    }
-
-    public ImageIcon getCharacter() {
-        return character;
-    }
-
-    public void setCharacter(ImageIcon character) {
-        this.character = character;
-    }
-
-    @Override
-    public void run() {
-
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
+        this.character = new ImageIcon(new SpriteSheetHandler("res/player16x16.png").crop(1, 0, 16, 16));
+        gr2D.drawImage(character.getImage(), dx, mapanel.getBounds().height - 50, 48, 48, null);
     }
 }
