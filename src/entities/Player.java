@@ -17,18 +17,18 @@ public class Player extends Sprite {
         int xa = 0;
         int ya = 0;
 
-        if (inputHandler.up.isPressed()) {
-            ya--;
-        }
-        if (inputHandler.down.isPressed()) {
-            ya++;
-        }
-        if (inputHandler.left.isPressed()) {
-            xa--;
-        }
-        if (inputHandler.right.isPressed()) {
-            xa++;
-        }
+//        if (inputHandler.up.isPressed()) {
+//            ya--;
+//        }
+//        if (inputHandler.down.isPressed()) {
+//            ya++;
+//        }
+//        if (inputHandler.left.isPressed()) {
+//            xa--;
+//        }
+//        if (inputHandler.right.isPressed()) {
+//            xa++;
+//        }
 
         if (xa != 0 || ya != 0) {
             move(xa, ya);

@@ -37,6 +37,6 @@ public class SpriteSheetHandler {
     }
 
     public BufferedImage crop(int col, int row, int w, int h) {
-        return image.getSubimage(col * 16, row * 16, w, h);
+        return image.getSubimage(col * 66, row * 66, w, h); // Change according each sprite dimensions
     }
 }
