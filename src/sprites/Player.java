@@ -2,37 +2,82 @@ package sprites;
 
 import controller.InputHandler;
 import gfx.SpriteSheetHandler;
-import jdk.internal.util.xml.impl.Input;
+import mapanel.Collision;
 import mapanel.Mapcanvas;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+/**
+ * Created by Antonio Moreno Valls
+ */
 public class Player extends Thread {
 
-    // life int
-    // weapon: Bubble
-
     private int life;
-    private int dx;
-    private Mapcanvas mapanel;
+    private int dx, dy, x, y;
+    private Mapcanvas game;
     private ImageIcon character;
     private InputHandler inputHandler;
 
-    public Player(Mapcanvas mapanel, InputHandler inputHandler) {
-        this.mapanel = mapanel;
+    public Player(int dx, int dy, int x, int y, Mapcanvas game, InputHandler inputHandler) {
+        this.game = game;
         this.life = 3;
-        this.dx = mapanel.getWidth() / 2;
+        this.dx = dx;
+        this.dy = dy;
+        this.x = x;
+        this.y = y;
         this.character = new ImageIcon(new SpriteSheetHandler("res/d814p9r.png").crop(0, 2, 66, 66));
     }
 
+    public int getLife() {
+        return life;
+    }
+
+    public void setLife(int life) {
+        this.life = life;
+    }
+
+    public int getDx() {
+        return dx;
+    }
+
+    public void setDx(int dx) {
+        this.dx = dx;
+    }
+
+    public int getDy() {
+        return dy;
+    }
+
+    public void setDy(int dy) {
+        this.dy = dy;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
     public void drawCharacter(Graphics2D gr2D) {
-        gr2D.drawImage(character.getImage(), dx - 20, mapanel.getBounds().height - 65, 66, 66, null);
+        gr2D.drawImage(character.getImage(), getDx(), getDy(), getX(), getY(), null);
     }
 
     public void toRight() {
-        this.dx = dx + 20;
         this.character = new ImageIcon(new SpriteSheetHandler("res/d814p9r.png").crop(1, 2, 66, 66));
+        this.dx = dx + 40;
 
         try {
             Thread.sleep(120);
@@ -44,8 +89,8 @@ public class Player extends Thread {
     }
 
     public void toLeft() {
-        this.dx = dx - 20;
         this.character = new ImageIcon(new SpriteSheetHandler("res/d814p9r.png").crop(1, 1, 66, 66));
+        this.dx = dx - 40;
 
         try {
             Thread.sleep(120);
@@ -57,7 +102,15 @@ public class Player extends Thread {
 
     @Override
     public void run() {
-        // TODO: Implement collision with map and objects on run method
+        try {
+            while (true) {
+                Collision.checkPlayer2WallCollision(this, game);
+                Thread.sleep(5);
+            }
+        } catch (InterruptedException e) {
+            Logger.getLogger(Player.class.getName()).log(Level.SEVERE, null, e);
+        }
     }
+
 
 }

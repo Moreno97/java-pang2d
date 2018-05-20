@@ -31,8 +31,13 @@ public class Mapcanvas extends Canvas implements Runnable {
         setFocusable(true);
         setVisible(true);
         inputHandler = new InputHandler(this);
-        player = new Player(this, inputHandler);
+        initSprites();
         addKeyListener(inputHandler);
+    }
+
+    private void initSprites() {
+        player = new Player((getWidth() / 2) - 20, getBounds().height - 90, 66, 66, this, inputHandler);
+        player.start();
     }
 
     private void tick() {
@@ -76,57 +81,12 @@ public class Mapcanvas extends Canvas implements Runnable {
         gr2D.dispose();
     }
 
-    private void startGame() {
-        urlimgBgd = this.getClass().getResource("images/lv1.png");
-        imgBgd = new ImageIcon(urlimgBgd).getImage();
-    }
-
-//    @Override
-//    public void keyTyped(KeyEvent e) {
-//
-//    }
-//
-//    @Override
-//    public void keyPressed(KeyEvent e) {
-//        int cod = e.getKeyCode();
-//        if (cod == 10 && start) {
-//            start = false;
-//            startGame();
-//        }
-//    }
-//
-//    @Override
-//    public void keyReleased(KeyEvent e) {
-//
-//    }
-
     @Override
     public void run() {
         this.createBufferStrategy(2);
-//        try {
-//            while (start) {
-//                if (titbl == 1) {
-//                    urlimgBgd = this.getClass().getResource("images/PantIni.png");
-//                    imgBgd = new ImageIcon(urlimgBgd).getImage();
-//                    titbl = 2;
-//                    paint();
-//
-//                } else if (titbl == 2) {
-//                    urlimgBgd = this.getClass().getResource("images/PantIni2.png");
-//                    imgBgd = new ImageIcon(urlimgBgd).getImage();
-//                    titbl = 1;
-//                    paint();
-//                }
-//                Thread.sleep(1000);
-//
-//            }
-//        } catch (Exception e) {
-//        }
-
         while (true) {
             tick();
             paint();
-
             try {
                 Thread.sleep(1);
             } catch (InterruptedException e) {
