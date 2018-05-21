@@ -1,5 +1,6 @@
 package mapanel;
 
+import sprites.Bullet;
 import sprites.Player;
 
 public class Collision {
@@ -120,22 +121,19 @@ public class Collision {
 //        }
 //    }
 
-//    // Colisión entre el item y un objeto de tipo 'Game'.
-//    public static void checkBall2WallCollision(Item i, Game game) {
-////        if (i.dx + i.radio >= game.getWidth() || i.dx - i.radio <= 0) {
-////            i.rebotaX();
-////        }
-////        if (i.dy + i.radio >= game.getHeight() || i.dy - i.radio <= 0) {
-////            i.rebotaY();
-////        }
-//    }
+    // Colisión entre el item y un objeto de tipo 'Game'.
+    public static void checkBall2WallCollision(Bullet i, Mapcanvas game) {
+        if (i.getDy() + i.getRadio() >= game.getHeight() || i.getDy() - i.getRadio() <= 0) {
+            i.remove();
+        }
+    }
 
     public static void checkPlayer2WallCollision(Player cg, Mapcanvas game) {
         if (cg.getDx() + cg.getX() >= game.getWidth()) {
             cg.setDx(game.getWidth() - 50);
         }
 
-        if (cg.getDx() + cg.getX() <= game.getBounds().getX() + 35) {
+        if (cg.getDx() + cg.getX() <= game.getBounds().getX() + 30) {
             cg.setDx((int) game.getBounds().getX());
         }
     }

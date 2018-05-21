@@ -28,7 +28,8 @@ public class Player extends Thread {
         this.dy = dy;
         this.x = x;
         this.y = y;
-        this.character = new ImageIcon(new SpriteSheetHandler("res/d814p9r.png").crop(0, 2, 66, 66));
+        this.inputHandler = inputHandler;
+        this.character = new ImageIcon(new SpriteSheetHandler("res/d814p9r.png").crop(0, 3, 66, 66));
     }
 
     public int getLife() {
@@ -76,28 +77,27 @@ public class Player extends Thread {
     }
 
     public void toRight() {
-        this.character = new ImageIcon(new SpriteSheetHandler("res/d814p9r.png").crop(1, 2, 66, 66));
         this.dx = dx + 40;
-
-        try {
-            Thread.sleep(120);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        for (int i = 3; i >= 0; i--) {
+            this.character = new ImageIcon(new SpriteSheetHandler("res/d814p9r.png").crop(i, 3, 66, 66));
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
-        this.character = new ImageIcon(new SpriteSheetHandler("res/d814p9r.png").crop(0, 2, 66, 66));
-
     }
 
     public void toLeft() {
-        this.character = new ImageIcon(new SpriteSheetHandler("res/d814p9r.png").crop(1, 1, 66, 66));
         this.dx = dx - 40;
-
-        try {
-            Thread.sleep(120);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        for (int i = 3; i >= 0; i--) {
+            this.character = new ImageIcon(new SpriteSheetHandler("res/d814p9r.png").crop(i, 3, 66, 66));
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
-        this.character = new ImageIcon(new SpriteSheetHandler("res/d814p9r.png").crop(0, 1, 66, 66));
     }
 
     @Override
@@ -105,12 +105,11 @@ public class Player extends Thread {
         try {
             while (true) {
                 Collision.checkPlayer2WallCollision(this, game);
-                Thread.sleep(5);
+                Thread.sleep(100);
             }
         } catch (InterruptedException e) {
             Logger.getLogger(Player.class.getName()).log(Level.SEVERE, null, e);
         }
     }
-
 
 }

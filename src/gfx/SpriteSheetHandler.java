@@ -5,6 +5,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Created by Antonio Moreno Valls
+ **/
 public class SpriteSheetHandler {
     private String path;
     private int width;
@@ -37,6 +40,6 @@ public class SpriteSheetHandler {
     }
 
     public BufferedImage crop(int col, int row, int w, int h) {
-        return image.getSubimage(col * 66, row * 66, w, h); // Change according each sprite dimensions
+        return image.getSubimage(col * w, row * h, w, h); // Change according each sprite dimensions
     }
 }

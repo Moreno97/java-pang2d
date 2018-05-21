@@ -1,15 +1,17 @@
 package mapanel;
 
 import controller.InputHandler;
+import sprites.Bullet;
 import sprites.Player;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 
 public class Mapcanvas extends Canvas implements Runnable {
     private Image imgBgd;
@@ -19,9 +21,11 @@ public class Mapcanvas extends Canvas implements Runnable {
     private int titbl = 2;
     private Player player;
     private InputHandler inputHandler;
+    public final ArrayList<Bullet> bulletsArrayList;
 
     public Mapcanvas() {
         InitCanvas();
+        bulletsArrayList = new ArrayList<>();
     }
 
     private void InitCanvas() {
@@ -76,6 +80,21 @@ public class Mapcanvas extends Canvas implements Runnable {
         gr2D.fillRect(0, 0, widthC, heightC);
         gr2D.drawImage(imgBgd, 0, 0, this);
         player.drawCharacter(gr2D);
+
+        // Paint bullet from player
+        HashSet activeKeys = inputHandler.getActiveKeys();
+        if (activeKeys.contains(KeyEvent.VK_K)) {
+            Bullet b = new Bullet(player.getDx() + 33, player.getDy(), 0, 5, 12, 1,
+                    this, bulletsArrayList.size());
+            bulletsArrayList.add(b);
+            b.start();
+        }
+
+        Iterator<Bullet> iter = bulletsArrayList.iterator();
+        while (iter.hasNext()) {
+            Bullet str = iter.next();
+            str.paint(gr2D);
+        }
 
         bs.show();
         gr2D.dispose();
