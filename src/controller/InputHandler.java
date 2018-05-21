@@ -1,7 +1,5 @@
 package controller;
 
-import mapanel.Mapcanvas;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashSet;
@@ -10,8 +8,7 @@ public class InputHandler implements KeyListener {
 
     private HashSet<Integer> activeKeys;
 
-    public InputHandler(Mapcanvas mapcanvas) {
-        mapcanvas.addKeyListener(this);
+    public InputHandler() {
         activeKeys = new HashSet<>();
     }
 

@@ -78,10 +78,10 @@ public class Player extends Thread {
 
     public void toRight() {
         this.dx = dx + 40;
-        for (int i = 3; i >= 0; i--) {
+        for (int i = 3; i >= 2; i--) {
             this.character = new ImageIcon(new SpriteSheetHandler("res/d814p9r.png").crop(i, 3, 66, 66));
             try {
-                Thread.sleep(10);
+                Thread.sleep(25);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -90,10 +90,10 @@ public class Player extends Thread {
 
     public void toLeft() {
         this.dx = dx - 40;
-        for (int i = 3; i >= 0; i--) {
+        for (int i = 3; i >= 2; i--) {
             this.character = new ImageIcon(new SpriteSheetHandler("res/d814p9r.png").crop(i, 3, 66, 66));
             try {
-                Thread.sleep(10);
+                Thread.sleep(25);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

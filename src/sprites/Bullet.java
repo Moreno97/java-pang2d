@@ -4,6 +4,7 @@ import mapanel.Collision;
 import mapanel.Mapcanvas;
 
 import java.awt.*;
+import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -12,10 +13,10 @@ import java.util.logging.Logger;
  **/
 public class Bullet extends Thread {
     private float dx, dy, speedX, speedY, radio, mass;
-    private int index;
+    private Stack<Bullet> bulletStack;
     private Mapcanvas mapcanvas;
 
-    public Bullet(float dx, float dy, float speedX, float speedY, float radio, float mass, Mapcanvas mapcanvas, int index) {
+    public Bullet(float dx, float dy, float speedX, float speedY, float radio, float mass, Mapcanvas mapcanvas, Stack<Bullet> bulletStack) {
         this.dx = dx;
         this.dy = dy;
         this.speedX = speedX;
@@ -23,7 +24,7 @@ public class Bullet extends Thread {
         this.radio = radio;
         this.mass = mass;
         this.mapcanvas = mapcanvas;
-        this.index = index;
+        this.bulletStack = bulletStack;
     }
 
     public float getDx() {
@@ -75,12 +76,12 @@ public class Bullet extends Thread {
     }
 
     public void paint(Graphics2D gr2D) {
-        gr2D.setColor(Color.RED);
-        gr2D.fillOval((int) (this.dx - radio), (int) (this.dy - radio), (int) radio * 2, (int) radio * 2);
+        gr2D.setColor(new Color(245, 55, 182));
+        gr2D.fillRect((int) (this.dx - radio), (int) (this.dy - radio), (int) radio * 2, (int) radio * 3);
     }
 
-    private float restDy() {
-        return this.dy -= this.speedY;
+    private void restDy() {
+        this.dy -= this.speedY;
     }
 
     @Override
@@ -97,9 +98,9 @@ public class Bullet extends Thread {
     }
 
     public void remove() {
-        synchronized (mapcanvas.bulletsArrayList) {
-            if (mapcanvas.bulletsArrayList.size() == index) {
-                mapcanvas.bulletsArrayList.remove(index);
+        synchronized (bulletStack) {
+            if (!bulletStack.isEmpty()) {
+                bulletStack.remove(this);
             }
         }
     }

@@ -7,11 +7,13 @@ import sprites.Player;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Stack;
 
 public class Mapcanvas extends Canvas implements Runnable {
     private Image imgBgd;
@@ -21,22 +23,54 @@ public class Mapcanvas extends Canvas implements Runnable {
     private int titbl = 2;
     private Player player;
     private InputHandler inputHandler;
-    public final ArrayList<Bullet> bulletsArrayList;
+    private final Stack<Bullet> bulletStack;
+    private HashSet<Integer> activeKeys;
 
     public Mapcanvas() {
-        InitCanvas();
-        bulletsArrayList = new ArrayList<>();
+        activeKeys = new HashSet<>();
+        bulletStack = new Stack<>();
+        initCanvas();
     }
 
-    private void InitCanvas() {
+    private void initCanvas() {
         urlimgBgd = this.getClass().getResource("images/lv1.png");
         imgBgd = new ImageIcon(urlimgBgd).getImage();
         setSize(widthC, heightC);
-        setFocusable(true);
-        setVisible(true);
-        inputHandler = new InputHandler(this);
         initSprites();
-        addKeyListener(inputHandler);
+        setFocusable(true);
+
+        final Mapcanvas mapcanvas = this;
+        addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == (KeyEvent.VK_D)) {
+                    player.toRight();
+                }
+
+                if (e.getKeyCode() == (KeyEvent.VK_A)) {
+                    player.toLeft();
+                }
+
+                if (e.getKeyCode() == (KeyEvent.VK_K)) {
+                    Bullet b = new Bullet(player.getDx() + 33, player.getDy(), 0, 8, 10, 1,
+                            mapcanvas, bulletStack);
+                    bulletStack.push(b);
+                    b.start();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+
+        });
+
+
     }
 
     private void initSprites() {
@@ -44,16 +78,23 @@ public class Mapcanvas extends Canvas implements Runnable {
         player.start();
     }
 
-    private void tick() {
-        HashSet activeKeys = inputHandler.getActiveKeys();
-        if (activeKeys.contains(KeyEvent.VK_D)) {
-            player.toRight();
-        }
-
-        if (activeKeys.contains(KeyEvent.VK_A)) {
-            player.toLeft();
-        }
-    }
+//    private void tick() {
+//        if (activeKeys.contains(KeyEvent.VK_D)) {
+//            System.out.println("PRESSED");
+//            player.toRight();
+//        }
+//
+//        if (activeKeys.contains(KeyEvent.VK_A)) {
+//            player.toLeft();
+//        }
+//
+//        if (activeKeys.contains(KeyEvent.VK_K)) {
+//            Bullet b = new Bullet(player.getDx() + 33, player.getDy(), 0, 5, 12, 1,
+//                    this, bulletStack);
+//            bulletStack.push(b);
+//            b.start();
+//        }
+//    }
 
     private BufferStrategy getBuffer() {
         return getBufferStrategy();
@@ -81,19 +122,10 @@ public class Mapcanvas extends Canvas implements Runnable {
         gr2D.drawImage(imgBgd, 0, 0, this);
         player.drawCharacter(gr2D);
 
-        // Paint bullet from player
-        HashSet activeKeys = inputHandler.getActiveKeys();
-        if (activeKeys.contains(KeyEvent.VK_K)) {
-            Bullet b = new Bullet(player.getDx() + 33, player.getDy(), 0, 5, 12, 1,
-                    this, bulletsArrayList.size());
-            bulletsArrayList.add(b);
-            b.start();
-        }
-
-        Iterator<Bullet> iter = bulletsArrayList.iterator();
-        while (iter.hasNext()) {
-            Bullet str = iter.next();
-            str.paint(gr2D);
+        synchronized (bulletStack) {
+            for (Bullet bullet : bulletStack) {
+                bullet.paint(gr2D);
+            }
         }
 
         bs.show();
@@ -104,10 +136,9 @@ public class Mapcanvas extends Canvas implements Runnable {
     public void run() {
         this.createBufferStrategy(2);
         while (true) {
-            tick();
             paint();
             try {
-                Thread.sleep(1);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
