@@ -6,12 +6,15 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.net.URL;
+import java.util.Timer;
 
 public class Mapcanvas extends Canvas implements Runnable,KeyListener {
+    private Clock clk;
     private Image imgBgd;
     private URL urlimgBgd;
     private Boolean start = true;
-    private static int widthC = 853, heightC = 571;
+    private Boolean boclock=false;
+    private static int widthC = 853, heightC = 651;
     private int titbl = 2;
 
     public Mapcanvas() {
@@ -47,7 +50,11 @@ public class Mapcanvas extends Canvas implements Runnable,KeyListener {
 
         // Pintamos el fondo
         gr2D.drawImage(imgBgd, 0, 0, this);
-
+        if(boclock) {
+            gr2D.setColor(Color.WHITE);cd
+            gr2D.setFont(new Font("Times New Roman",Font.BOLD,40));
+            gr2D.drawString("TIME:"+String.valueOf(clk.getSegundos()), 30, 625);
+        }
         bs.show();
         gr2D.dispose();
     }
@@ -55,6 +62,9 @@ public class Mapcanvas extends Canvas implements Runnable,KeyListener {
     private void startGame() {
         urlimgBgd = this.getClass().getResource("images/lv1.png");
         imgBgd = new ImageIcon(urlimgBgd).getImage();
+        boclock = true;
+        clk =new Clock(121,true);
+        new Thread(clk).start();
     }
 
     private void mapLvs(int cod) {
@@ -117,6 +127,7 @@ public class Mapcanvas extends Canvas implements Runnable,KeyListener {
                 }
             }
         } catch (Exception e) {
+            e.getMessage();
         }
         
         try {

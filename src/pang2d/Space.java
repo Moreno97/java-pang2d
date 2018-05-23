@@ -16,7 +16,7 @@ public class Space extends JFrame {
     }
     private void initMap(){
         Container panel;
-        setBounds(0,0,853,571);
+        setBounds(0,0,853,680);
         setTitle("Pang Vrs. DAM");
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
