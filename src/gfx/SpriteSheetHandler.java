@@ -36,7 +36,6 @@ public class SpriteSheetHandler {
                     pixels[i] & 0xff / 64
             );
         }
-
     }
 
     public BufferedImage crop(int col, int row, int w, int h) {

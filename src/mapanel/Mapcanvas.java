@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.net.URL;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -22,12 +23,9 @@ public class Mapcanvas extends Canvas implements Runnable {
     private static int widthC = 850, heightC = 570;
     private int titbl = 2;
     private Player player;
-    private InputHandler inputHandler;
     private final Stack<Bullet> bulletStack;
-    private HashSet<Integer> activeKeys;
 
     public Mapcanvas() {
-        activeKeys = new HashSet<>();
         bulletStack = new Stack<>();
         initCanvas();
     }
@@ -74,27 +72,10 @@ public class Mapcanvas extends Canvas implements Runnable {
     }
 
     private void initSprites() {
-        player = new Player((getWidth() / 2) - 20, getBounds().height - 90, 66, 66, this, inputHandler);
+        player = new Player((getWidth() / 2) - 20, getBounds().height - 90, 66, 66, this);
         player.start();
     }
 
-//    private void tick() {
-//        if (activeKeys.contains(KeyEvent.VK_D)) {
-//            System.out.println("PRESSED");
-//            player.toRight();
-//        }
-//
-//        if (activeKeys.contains(KeyEvent.VK_A)) {
-//            player.toLeft();
-//        }
-//
-//        if (activeKeys.contains(KeyEvent.VK_K)) {
-//            Bullet b = new Bullet(player.getDx() + 33, player.getDy(), 0, 5, 12, 1,
-//                    this, bulletStack);
-//            bulletStack.push(b);
-//            b.start();
-//        }
-//    }
 
     private BufferStrategy getBuffer() {
         return getBufferStrategy();

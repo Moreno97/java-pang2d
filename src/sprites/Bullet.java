@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  **/
 public class Bullet extends Thread {
     private float dx, dy, speedX, speedY, radio, mass;
-    private Stack<Bullet> bulletStack;
+    private final Stack<Bullet> bulletStack;
     private Mapcanvas mapcanvas;
 
     public Bullet(float dx, float dy, float speedX, float speedY, float radio, float mass, Mapcanvas mapcanvas, Stack<Bullet> bulletStack) {

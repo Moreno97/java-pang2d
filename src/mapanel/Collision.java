@@ -121,7 +121,6 @@ public class Collision {
 //        }
 //    }
 
-    // Colisión entre el item y un objeto de tipo 'Game'.
     public static void checkBall2WallCollision(Bullet i, Mapcanvas game) {
         if (i.getDy() + i.getRadio() >= game.getHeight() || i.getDy() - i.getRadio() <= 0) {
             i.remove();

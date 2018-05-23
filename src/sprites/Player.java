@@ -19,16 +19,14 @@ public class Player extends Thread {
     private int dx, dy, x, y;
     private Mapcanvas game;
     private ImageIcon character;
-    private InputHandler inputHandler;
 
-    public Player(int dx, int dy, int x, int y, Mapcanvas game, InputHandler inputHandler) {
+    public Player(int dx, int dy, int x, int y, Mapcanvas game) {
         this.game = game;
         this.life = 3;
         this.dx = dx;
         this.dy = dy;
         this.x = x;
         this.y = y;
-        this.inputHandler = inputHandler;
         this.character = new ImageIcon(new SpriteSheetHandler("res/d814p9r.png").crop(0, 3, 66, 66));
     }
 
