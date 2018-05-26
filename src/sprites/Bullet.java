@@ -1,8 +1,10 @@
 package sprites;
 
+import gfx.SpriteSheetHandler;
 import mapanel.Collision;
 import mapanel.Mapcanvas;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.Stack;
 import java.util.logging.Level;
@@ -12,8 +14,10 @@ import java.util.logging.Logger;
  * Created by Antonio Moreno Valls
  **/
 public class Bullet extends Thread {
+    public boolean hasCollided;
     private float dx, dy, speedX, speedY, radio, mass;
     private final Stack<Bullet> bulletStack;
+    private ImageIcon bullet;
     private Mapcanvas mapcanvas;
 
     public Bullet(float dx, float dy, float speedX, float speedY, float radio, float mass, Mapcanvas mapcanvas, Stack<Bullet> bulletStack) {
@@ -25,6 +29,8 @@ public class Bullet extends Thread {
         this.mass = mass;
         this.mapcanvas = mapcanvas;
         this.bulletStack = bulletStack;
+        this.bullet = new ImageIcon(new SpriteSheetHandler("res/clash2.png")
+                .getImageWithoutCropping());
     }
 
     public float getDx() {
@@ -75,13 +81,22 @@ public class Bullet extends Thread {
         this.mass = mass;
     }
 
-    public void paint(Graphics2D gr2D) {
-        gr2D.setColor(new Color(245, 55, 182));
-        gr2D.fillRect((int) (this.dx - radio), (int) (this.dy - radio), (int) radio * 2, (int) radio * 3);
+    public synchronized void paint(Graphics2D gr2D) {
+        gr2D.drawImage(this.bullet.getImage(), (int) getDx(), (int) getDy(), null);
+
+        if (hasCollided) {
+            gr2D.drawImage(new ImageIcon(new SpriteSheetHandler("res/explosion03.png").crop(3, 0, 128, 128)).getImage()
+                    , (int) getDx() - 45, (int) getDy() - 35, null);
+        }
     }
 
     private void restDy() {
+        // TODO: Set physics to reduce bullet speed
         this.dy -= this.speedY;
+    }
+
+    public void setHasCollided(boolean hasCollided) {
+        this.hasCollided = hasCollided;
     }
 
     @Override
@@ -100,8 +115,11 @@ public class Bullet extends Thread {
     public void remove() {
         synchronized (bulletStack) {
             if (!bulletStack.isEmpty()) {
-                bulletStack.remove(this);
+                if (hasCollided) {
+                    bulletStack.remove(this);
+                }
             }
         }
     }
+
 }

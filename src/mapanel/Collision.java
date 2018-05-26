@@ -122,8 +122,9 @@ public class Collision {
 //    }
 
     public static void checkBall2WallCollision(Bullet i, Mapcanvas game) {
-        if (i.getDy() + i.getRadio() >= game.getHeight() || i.getDy() - i.getRadio() <= 0) {
+        if (i.getDy() + i.getRadio() >= game.getHeight() || i.getDy() - i.getRadio() <= -10) {
             i.remove();
+            i.setHasCollided(true);
         }
     }
 

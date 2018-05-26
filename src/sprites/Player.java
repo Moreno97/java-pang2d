@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 /**
  * Created by Antonio Moreno Valls
  */
-public class Player extends Thread {
+public class Player extends Sprite {
 
     private int life;
     private int dx, dy, x, y;
@@ -21,6 +21,7 @@ public class Player extends Thread {
     private ImageIcon character;
 
     public Player(int dx, int dy, int x, int y, Mapcanvas game) {
+        super(dx, dy, x, y);
         this.game = game;
         this.life = 3;
         this.dx = dx;
@@ -75,7 +76,7 @@ public class Player extends Thread {
     }
 
     public void toRight() {
-        this.dx = dx + 40;
+        this.dx = dx + 60;
         for (int i = 3; i >= 2; i--) {
             this.character = new ImageIcon(new SpriteSheetHandler("res/d814p9r.png").crop(i, 3, 66, 66));
             try {
@@ -87,7 +88,7 @@ public class Player extends Thread {
     }
 
     public void toLeft() {
-        this.dx = dx - 40;
+        this.dx = dx - 60;
         for (int i = 3; i >= 2; i--) {
             this.character = new ImageIcon(new SpriteSheetHandler("res/d814p9r.png").crop(i, 3, 66, 66));
             try {
@@ -103,7 +104,7 @@ public class Player extends Thread {
         try {
             while (true) {
                 Collision.checkPlayer2WallCollision(this, game);
-                Thread.sleep(100);
+                Thread.sleep(80);
             }
         } catch (InterruptedException e) {
             Logger.getLogger(Player.class.getName()).log(Level.SEVERE, null, e);
