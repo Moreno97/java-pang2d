@@ -15,10 +15,11 @@ import static pang2d.Utils.playSound;
 
 public class Mapcanvas extends Canvas implements Runnable{
     private Clock clk;
-    private Image imgBgd;
+    private Image imgBgd,gun,gover,lifechar;
     private URL urlimgBgd;
     private boolean start = true;
-    private Boolean boclock=false;
+    private boolean over = true;
+    private boolean boclock=false;
     private static int widthC = 853, heightC = 651;
     private int titbl = 2;
     private Player player;
@@ -76,7 +77,10 @@ public class Mapcanvas extends Canvas implements Runnable{
     }
 
         private void startGame() {
+            over=true;
             imgBgd = new SpriteSheetHandler("res/imglevels/lv1.png").getImageWithoutCropping();
+            gun  = new SpriteSheetHandler("res/pistola.png").getImageWithoutCropping();
+            lifechar=new SpriteSheetHandler("res/minichar.png").getImageWithoutCropping();
             boclock = true;
             clk =new Clock(121,true);
             new Thread(clk).start();
@@ -108,8 +112,17 @@ public class Mapcanvas extends Canvas implements Runnable{
         gr2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
         gr2D.drawImage(imgBgd, 0 , 0, this);
+
+
         if(!start){
             player.drawCharacter(gr2D);
+            gr2D.drawImage(gun, (getWidth()/2)-27 , getBounds().height- 55, this);
+            gr2D.drawImage(lifechar, getWidth()-120 , getBounds().height- 60, this);
+            gr2D.setColor(Color.WHITE);
+            gr2D.setFont(new Font("Times New Roman",Font.BOLD,30));
+            gr2D.drawString("X 3", getWidth()-78, getBounds().height- 28);
+            gr2D.setFont(new Font("Times New Roman",Font.BOLD,20));
+            gr2D.drawString("SCORE", getWidth()-350, getBounds().height- 55);
         }
 
         synchronized (bulletStack) {
@@ -119,12 +132,29 @@ public class Mapcanvas extends Canvas implements Runnable{
         }
 
         if(boclock) {
-            gr2D.setColor(Color.WHITE);
-            gr2D.setFont(new Font("Times New Roman",Font.BOLD,40));
-            gr2D.drawString("TIME:"+String.valueOf(clk.getSegundos()), 30, 625);
+            if(clk.getSegundos()> 0){
+                gr2D.setColor(Color.WHITE);
+                gr2D.setFont(new Font("Times New Roman",Font.BOLD,40));
+                gr2D.drawString("TIME:"+String.valueOf(clk.getSegundos()), 30, 625);
+            }else{
+                gr2D.setFont(new Font("Times New Roman",Font.BOLD,40));
+                gr2D.drawString("TIME:"+String.valueOf(clk.getSegundos()), 30, 625);
+                gover=new SpriteSheetHandler("res/imglevels/gover.png").getImageWithoutCropping();
+                gr2D.drawImage(gover, 0 , 0, this);
+                player.changeCharacter();
+                soundGameOver();
+            }
+
         }
         bs.show();
         gr2D.dispose();
+    }
+
+    private void soundGameOver() {
+        if(over) {
+            over=false;
+            playSound("res/levels/sounds/GameOver_Triste.wav");
+        }
     }
 
     @Override
