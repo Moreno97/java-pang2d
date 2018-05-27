@@ -1,7 +1,12 @@
 package mapanel;
 
+import javafx.scene.shape.Circle;
+import sprites.Block;
 import sprites.Bullet;
 import sprites.Player;
+
+import java.util.ArrayList;
+import java.util.Stack;
 
 public class Collision {
 
@@ -86,42 +91,42 @@ public class Collision {
 //    }
 
 //    // Colisión entre el jugador y un objeto de tipo 'Block'.
-//    public static void checkBall2BlockCollision(CharacterGame cg, ArrayList<Block> blocks) {
+//    public static void checkBall2BlockCollision(Player cg, ArrayList<Block> blocks) {
 //        Circle c = new Circle(cg.getDx(), cg.getDy(), cg.getX());
 //        blocks.stream().map((obs) -> {
-//            if (cg.getDx() >= obs.posX && cg.getDx() <= obs.width + obs.posX && cg.getDy()>= obs.posY && cg.getDy() <= obs.height + obs.posY) {
+//            if (cg.getDx() >= obs.getDx() && cg.getDx() <= obs.getWidth() + obs.getDx() && cg.getDy()
+//                    >= obs.getDy() && cg.getDy() <= obs.getHeight() + obs.getDy()) {
 //
 //            }
 //            return obs;
 //        }).filter((obs) -> (c.intersects(obs.posX, obs.posY, obs.width, obs.height
-//        ))).map((obs) -> {
+//        ))).peek((obs) -> {
 //            if (cg.getDx() <= obs.posX || cg.getDx() >= obs.width + obs.posX) {
 //                cg.rebotaX();
 //            }
-//            return obs;
 //        }).filter((obs) -> (cg.getDy() <= obs.posY || cg.getDy() >= obs.height + obs.posY)).forEachOrdered((_item) -> {
 //            cg.rebotaY();
 //        });
 //    }
 
-//    // Colisión entre el Item y un objeto de tipo 'BlackHole'.
-//    public static void checkBall2HoleCollision(Item i, ArrayList<BlackHole> obstacles) {
-//        Circle c = new Circle(i.dx, i.dy, i.radio);
-//        for (BlackHole m : obstacles) {
-//            if (c.intersects(m.getDx(), m.getDy(), m.radio, m.radio)) {
-//                if (i.getDx() <= m.getDx() || i.getDx() >= m.radio + m.getDx()) {
-//                    System.out.println("Choque en el EJE X");
-//                    i.rebotaX();
-//                }
-//                if (i.getDy() <= m.getDy() || i.getDy() >= m.radio + m.getDy()) {
-//                    System.out.println("Choque en el EJE Y");
-//                    i.rebotaY();
-//                }
-//            }
-//        }
-//    }
+    // Colisión entre Bullet y un objeto de tipo Block.
+    public static void checkBullet2BlockCollision(Bullet i, Stack<Block> obstacles) {
+        Circle c = new Circle(i.getDx(), i.getDy(), i.getRadio());
+        for (Block m : obstacles) {
+            if (c.intersects(m.getDx(), m.getDy(), m.getWidth(), m.getHeight())) {
+                if (i.getDx() <= m.getDx() || i.getDx() >= m.getWidth() + m.getDx()) {
+                    i.setIsCollided(true);
+                    i.remove();
+                }
+                if (i.getDy() <= m.getDy() || i.getDy() >= m.getWidth() + m.getDy()) {
+                    i.setIsCollided(true);
+                    i.remove();
+                }
+            }
+        }
+    }
 
-    public static void checkBall2WallCollision(Bullet i, Mapcanvas game) {
+    public static void checkBullet2WallCollision(Bullet i, Mapcanvas game) {
         if (i.getDy() + i.getRadio() >= game.getHeight() || i.getDy() - i.getRadio() <= -10) {
             i.remove();
             i.setIsCollided(true);
