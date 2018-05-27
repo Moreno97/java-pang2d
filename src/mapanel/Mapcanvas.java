@@ -1,7 +1,5 @@
 package mapanel;
 
-import controller.InputHandler;
-import sprites.Ball;
 import sprites.Bullet;
 import sprites.Player;
 
@@ -11,11 +9,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.net.URL;
-import java.security.Key;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Stack;
+
+import static pang2d.Utils.playSound;
 
 public class Mapcanvas extends Canvas implements Runnable {
     private Image imgBgd;
@@ -25,11 +21,9 @@ public class Mapcanvas extends Canvas implements Runnable {
     private int titbl = 2;
     private Player player;
     private final Stack<Bullet> bulletStack;
-    private final Stack<Ball> ballStack;
 
     public Mapcanvas() {
         bulletStack = new Stack<>();
-        ballStack = new Stack<>();
         initCanvas();
     }
 
@@ -57,10 +51,15 @@ public class Mapcanvas extends Canvas implements Runnable {
                 }
 
                 if (e.getKeyCode() == (KeyEvent.VK_K)) {
-                    Bullet b = new Bullet(player.getDx() + 33, player.getDy(), 0, 8, 10, 1,
+                    Bullet b = new Bullet(player.getDx() + 40, player.getDy(), 0, 8, 10, 1,
                             mapcanvas, bulletStack);
-                    bulletStack.push(b);
-                    b.start();
+                    playSound("res/sounds/weapon.wav");
+
+                    // If bullets on screen is more than 3, don't allow player to shoot more
+                    if (bulletStack.size() <= 2) {
+                        bulletStack.push(b);
+                        b.start();
+                    }
                 }
             }
 
@@ -76,16 +75,8 @@ public class Mapcanvas extends Canvas implements Runnable {
 
     private void initSprites() {
         player = new Player((getWidth() / 2) - 20, getBounds().height - 90, 66, 66, this);
-        player.start();
-
-        for(int i=0;i<10; i++ ){
-
-
-
-        }
-
+        new Thread(player).start();
     }
-
 
     private BufferStrategy getBuffer() {
         return getBufferStrategy();
@@ -106,10 +97,6 @@ public class Mapcanvas extends Canvas implements Runnable {
         Graphics2D gr2D = (Graphics2D) bs.getDrawGraphics();
         gr2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
-
-        // Pinta el background de negro
-        gr2D.setColor(Color.BLACK);
-        gr2D.fillRect(0, 0, widthC, heightC);
         gr2D.drawImage(imgBgd, 0, 0, this);
         player.drawCharacter(gr2D);
 
