@@ -26,21 +26,12 @@ public class Player extends Sprite {
         this.character = new ImageIcon(new SpriteSheetHandler("res/d814p9r.png").crop(0, 3, 66, 66));
     }
 
-    public int getLife() {
-        return life;
-    }
-
-    public void setLife(int life) {
-        this.life = life;
-    }
-
-
     public void drawCharacter(Graphics2D gr2D) {
         gr2D.drawImage(character.getImage(), getDx(), getDy(), getX(), getY(), null);
     }
 
     public void toRight() {
-        super.setDx(super.getDx()+60);
+        super.setDx(super.getDx() + 60);
         for (int i = 3; i >= 2; i--) {
             this.character = new ImageIcon(new SpriteSheetHandler("res/d814p9r.png").crop(i, 3, 66, 66));
             try {
@@ -52,7 +43,7 @@ public class Player extends Sprite {
     }
 
     public void toLeft() {
-        super.setDx(super.getDx()-60);
+        super.setDx(super.getDx() - 60);
         for (int i = 3; i >= 2; i--) {
             this.character = new ImageIcon(new SpriteSheetHandler("res/d814p9r.png").crop(i, 3, 66, 66));
             try {

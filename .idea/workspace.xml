@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8875c021-f6bb-4b33-b70c-3834db78337a" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/java-pang2d/sprites/Player.class" afterPath="$PROJECT_DIR$/out/production/java-pang2d/sprites/Player.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/java-pang2d/sprites/Sprite.class" afterPath="$PROJECT_DIR$/out/production/java-pang2d/sprites/Sprite.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mapanel/Mapcanvas.java" afterPath="$PROJECT_DIR$/src/mapanel/Mapcanvas.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sprites/Ball.java" afterPath="$PROJECT_DIR$/src/sprites/Ball.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sprites/Bullet.java" afterPath="$PROJECT_DIR$/src/sprites/Bullet.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sprites/Player.java" afterPath="$PROJECT_DIR$/src/sprites/Player.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sprites/Sprite.java" afterPath="$PROJECT_DIR$/src/sprites/Sprite.java" />
     </list>
@@ -16,11 +21,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Pang2D.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/pang2d/Pang2D.java">
+      <file leaf-file-name="Mapcanvas.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/mapanel/Mapcanvas.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="42">
-              <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+            <state relative-caret-position="533">
+              <caret line="60" column="21" lean-forward="true" selection-start-line="60" selection-start-column="21" selection-end-line="60" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -29,8 +34,8 @@
       <file leaf-file-name="Bullet.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sprites/Bullet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1058">
-              <caret line="98" column="0" lean-forward="false" selection-start-line="98" selection-start-column="0" selection-end-line="98" selection-end-column="0" />
+            <state relative-caret-position="535">
+              <caret line="46" column="0" lean-forward="false" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -39,8 +44,8 @@
       <file leaf-file-name="Player.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/sprites/Player.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="231">
-              <caret line="42" column="33" lean-forward="true" selection-start-line="42" selection-start-column="33" selection-end-line="42" selection-end-column="33" />
+            <state relative-caret-position="189">
+              <caret line="16" column="21" lean-forward="false" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -49,9 +54,17 @@
       <file leaf-file-name="Sprite.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sprites/Sprite.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="5" column="23" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="252">
+              <caret line="12" column="19" lean-forward="true" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
+              <folding>
+                <element signature="e#303#304#0" expanded="true" />
+                <element signature="e#328#329#0" expanded="true" />
+                <element signature="e#526#527#0" expanded="true" />
+                <element signature="e#581#582#0" expanded="true" />
+                <element signature="e#632#633#0" expanded="true" />
+                <element signature="e#687#688#0" expanded="true" />
+                <element signature="e#741#742#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -72,6 +85,7 @@
       <find>setDx</find>
       <find>map</find>
       <find>mapCa</find>
+      <find>getRadio</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -99,9 +113,9 @@
         <option value="$PROJECT_DIR$/src/gfx/SpriteSheetHandler.java" />
         <option value="$PROJECT_DIR$/src/mapanel/Collision.java" />
         <option value="$PROJECT_DIR$/src/pang2d/Utils.java" />
+        <option value="$PROJECT_DIR$/src/sprites/Player.java" />
         <option value="$PROJECT_DIR$/src/sprites/Bullet.java" />
         <option value="$PROJECT_DIR$/src/mapanel/Mapcanvas.java" />
-        <option value="$PROJECT_DIR$/src/sprites/Player.java" />
         <option value="$PROJECT_DIR$/src/sprites/Sprite.java" />
       </list>
     </option>
@@ -158,11 +172,6 @@
             <path>
               <item name="java-pang2d" type="b2602c69:ProjectViewProjectNode" />
               <item name="java-pang2d" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="java-pang2d" type="b2602c69:ProjectViewProjectNode" />
-              <item name="java-pang2d" type="462c0819:PsiDirectoryNode" />
-              <item name="res" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="java-pang2d" type="b2602c69:ProjectViewProjectNode" />
@@ -346,7 +355,14 @@
       <option name="project" value="LOCAL" />
       <updated>1527414763528</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="cambio en player.java y sprite.java correcto use de herencia">
+      <created>1527416300297</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1527416300297</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -367,6 +383,7 @@
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2265625" sideWeight="0.4849727" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32781458" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21959943" sideWeight="0.51502734" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -379,7 +396,6 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Code Iris" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287858" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -416,7 +432,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Merge branch 'master' of https://github.com/Moreno97/java-pang2d into sprites&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;out/production/java-pang2d/mapanel/Collision.class&#10;#&#9;src/mapanel/Mapcanvas.java" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge branch 'master' of https://github.com/Moreno97/java-pang2d into sprites&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;out/production/java-pang2d/mapanel/Collision.class&#10;#&#9;src/mapanel/Mapcanvas.java" />
+    <MESSAGE value="cambio en player.java y sprite.java correcto use de herencia" />
+    <option name="LAST_COMMIT_MESSAGE" value="cambio en player.java y sprite.java correcto use de herencia" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -660,22 +677,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/mapanel/Mapcanvas.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="932">
-          <caret line="71" column="0" lean-forward="true" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pang2d/Space.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="18" column="36" lean-forward="true" selection-start-line="18" selection-start-column="36" selection-end-line="18" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/sprites/Ball.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="84">
@@ -692,26 +693,50 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/pang2d/Space.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="18" column="36" lean-forward="true" selection-start-line="18" selection-start-column="36" selection-end-line="18" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/sprites/Sprite.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="5" column="23" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+        <state relative-caret-position="252">
+          <caret line="12" column="19" lean-forward="true" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
+          <folding>
+            <element signature="e#303#304#0" expanded="true" />
+            <element signature="e#328#329#0" expanded="true" />
+            <element signature="e#526#527#0" expanded="true" />
+            <element signature="e#581#582#0" expanded="true" />
+            <element signature="e#632#633#0" expanded="true" />
+            <element signature="e#687#688#0" expanded="true" />
+            <element signature="e#741#742#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mapanel/Mapcanvas.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="533">
+          <caret line="60" column="21" lean-forward="true" selection-start-line="60" selection-start-column="21" selection-end-line="60" selection-end-column="21" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sprites/Bullet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1058">
-          <caret line="98" column="0" lean-forward="false" selection-start-line="98" selection-start-column="0" selection-end-line="98" selection-end-column="0" />
+        <state relative-caret-position="535">
+          <caret line="46" column="0" lean-forward="false" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sprites/Player.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="42" column="33" lean-forward="true" selection-start-line="42" selection-start-column="33" selection-end-line="42" selection-end-column="33" />
+        <state relative-caret-position="189">
+          <caret line="16" column="21" lean-forward="false" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="21" />
           <folding />
         </state>
       </provider>
