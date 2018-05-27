@@ -9,11 +9,13 @@ public class Space extends JFrame {
 
     Mapcanvas mpc;
 
+
     public Space(){
         mpc=new Mapcanvas();
         initMap();
 
     }
+
     private void initMap(){
         Container panel;
         setBounds(0,0,853,680);
@@ -23,7 +25,8 @@ public class Space extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new GridLayout());
 
-        panel=getContentPane();
+        panel = getContentPane();
+        mpc = new Mapcanvas();
         panel.add(mpc);
         setVisible(true);
         new Thread(mpc).start();
