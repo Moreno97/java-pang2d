@@ -1,6 +1,7 @@
 package mapanel;
 
 import controller.InputHandler;
+import sprites.Ball;
 import sprites.Bullet;
 import sprites.Player;
 
@@ -24,9 +25,11 @@ public class Mapcanvas extends Canvas implements Runnable {
     private int titbl = 2;
     private Player player;
     private final Stack<Bullet> bulletStack;
+    private final Stack<Ball> ballStack;
 
     public Mapcanvas() {
         bulletStack = new Stack<>();
+        ballStack = new Stack<>();
         initCanvas();
     }
 
@@ -74,6 +77,13 @@ public class Mapcanvas extends Canvas implements Runnable {
     private void initSprites() {
         player = new Player((getWidth() / 2) - 20, getBounds().height - 90, 66, 66, this);
         player.start();
+
+        for(int i=0;i<10; i++ ){
+
+
+
+        }
+
     }
 
 
