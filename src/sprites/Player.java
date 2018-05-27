@@ -27,7 +27,7 @@ public class Player extends Sprite {
         this.dy = dy;
         this.x = x;
         this.y = y;
-        this.character = new ImageIcon(new SpriteSheetHandler("res/d814p9r.png").crop(0, 3, 66, 66));
+        this.character = new ImageIcon(new SpriteSheetHandler("res/sprites.png").crop(3, 1, 47, 49));
     }
 
     public int getLife() {
@@ -76,8 +76,8 @@ public class Player extends Sprite {
 
     public void toRight() {
         this.dx = dx + 60;
-        for (int i = 3; i >= 2; i--) {
-            this.character = new ImageIcon(new SpriteSheetHandler("res/d814p9r.png").crop(i, 3, 66, 66));
+        for (int i = 4; i >= 0; i--) {
+            this.character = new ImageIcon(new SpriteSheetHandler("res/sprites.png").crop(3, 1, 47, 49));
             try {
                 Thread.sleep(25);
             } catch (InterruptedException e) {
@@ -88,8 +88,8 @@ public class Player extends Sprite {
 
     public void toLeft() {
         this.dx = dx - 60;
-        for (int i = 3; i >= 2; i--) {
-            this.character = new ImageIcon(new SpriteSheetHandler("res/d814p9r.png").crop(i, 3, 66, 66));
+        for (int i = 4; i >= 0; i--) {
+            this.character = new ImageIcon(new SpriteSheetHandler("res/sprites.png").crop(3, 1, 47, 49));
             try {
                 Thread.sleep(25);
             } catch (InterruptedException e) {

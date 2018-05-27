@@ -51,7 +51,7 @@ public class Mapcanvas extends Canvas implements Runnable {
                 }
 
                 if (e.getKeyCode() == (KeyEvent.VK_K)) {
-                    Bullet b = new Bullet(player.getDx() + 40, player.getDy(), 0, 8, 10, 1,
+                    Bullet b = new Bullet(player.getDx() + 45, player.getDy(), 0, 8, 10, 1,
                             mapcanvas, bulletStack);
                     playSound("res/sounds/weapon.wav");
 
@@ -74,7 +74,7 @@ public class Mapcanvas extends Canvas implements Runnable {
     }
 
     private void initSprites() {
-        player = new Player((getWidth() / 2) - 20, getBounds().height - 90, 66, 66, this);
+        player = new Player((getWidth() / 2) - 20, getBounds().height - 105, 100, 100, this);
         new Thread(player).start();
     }
 

@@ -130,10 +130,10 @@ public class Collision {
 
     public static void checkPlayer2WallCollision(Player cg, Mapcanvas game) {
         if (cg.getDx() + cg.getX() >= game.getWidth()) {
-            cg.setDx(game.getWidth() - 50);
+            cg.setDx(game.getWidth() - 80);
         }
 
-        if (cg.getDx() + cg.getX() <= game.getBounds().getX() + 30) {
+        if (cg.getDx() + cg.getX() <= game.getBounds().getX() + 40) {
             cg.setDx((int) game.getBounds().getX());
         }
     }

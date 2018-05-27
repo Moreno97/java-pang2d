@@ -23,6 +23,5 @@ public class Space extends JFrame {
         panel.add(mpc);
         setVisible(true);
         new Thread(mpc).start();
-
     }
 }
