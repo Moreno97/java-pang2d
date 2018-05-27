@@ -15,7 +15,6 @@ import java.util.logging.Logger;
 public class Player extends Sprite {
 
     private int life;
-    private int dx, dy, x, y;
     private Mapcanvas game;
     private ImageIcon character;
 
@@ -23,10 +22,7 @@ public class Player extends Sprite {
         super(dx, dy, x, y);
         this.game = game;
         this.life = 3;
-        this.dx = dx;
-        this.dy = dy;
-        this.x = x;
-        this.y = y;
+
         this.character = new ImageIcon(new SpriteSheetHandler("res/d814p9r.png").crop(0, 3, 66, 66));
     }
 
@@ -38,44 +34,13 @@ public class Player extends Sprite {
         this.life = life;
     }
 
-    public int getDx() {
-        return dx;
-    }
-
-    public void setDx(int dx) {
-        this.dx = dx;
-    }
-
-    public int getDy() {
-        return dy;
-    }
-
-    public void setDy(int dy) {
-        this.dy = dy;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
 
     public void drawCharacter(Graphics2D gr2D) {
         gr2D.drawImage(character.getImage(), getDx(), getDy(), getX(), getY(), null);
     }
 
     public void toRight() {
-        this.dx = dx + 60;
+        super.setDx(super.getDx()+60);
         for (int i = 3; i >= 2; i--) {
             this.character = new ImageIcon(new SpriteSheetHandler("res/d814p9r.png").crop(i, 3, 66, 66));
             try {
@@ -87,7 +52,7 @@ public class Player extends Sprite {
     }
 
     public void toLeft() {
-        this.dx = dx - 60;
+        super.setDx(super.getDx()-60);
         for (int i = 3; i >= 2; i--) {
             this.character = new ImageIcon(new SpriteSheetHandler("res/d814p9r.png").crop(i, 3, 66, 66));
             try {
