@@ -11,6 +11,8 @@ import java.awt.image.BufferStrategy;
 import java.net.URL;
 import java.util.Stack;
 
+import static pang2d.Utils.playSound;
+
 public class Mapcanvas extends Canvas implements Runnable {
     private Image imgBgd;
     private URL urlimgBgd;
@@ -51,6 +53,7 @@ public class Mapcanvas extends Canvas implements Runnable {
                 if (e.getKeyCode() == (KeyEvent.VK_K)) {
                     Bullet b = new Bullet(player.getDx() + 40, player.getDy(), 0, 8, 10, 1,
                             mapcanvas, bulletStack);
+                    playSound("res/sounds/weapon.wav");
 
                     // If bullets on screen is more than 3, don't allow player to shoot more
                     if (bulletStack.size() <= 2) {

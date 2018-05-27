@@ -1,6 +1,5 @@
 package sprites;
 
-import controller.InputHandler;
 import gfx.SpriteSheetHandler;
 import mapanel.Collision;
 import mapanel.Mapcanvas;

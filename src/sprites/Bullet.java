@@ -4,11 +4,17 @@ import gfx.SpriteSheetHandler;
 import mapanel.Collision;
 import mapanel.Mapcanvas;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static pang2d.Utils.playSound;
 
 /**
  * Created by Antonio Moreno Valls
@@ -87,6 +93,7 @@ public class Bullet extends Thread {
         if (isCollided) {
             gr2D.drawImage(new ImageIcon(new SpriteSheetHandler("res/explosion03.png").crop(3, 0, 128, 128)).getImage()
                     , (int) getDx() - 45, (int) getDy() - 35, null);
+            playSound("res/sounds/explosion_sound.wav");
         }
     }
 
