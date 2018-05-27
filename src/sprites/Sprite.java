@@ -15,11 +15,7 @@ public abstract class Sprite implements Runnable {
         this.y = y;
     }
 
-    @Override
-    public void run() {
-
-    }
-
+    
     public int getDx() {
         return dx;
     }

@@ -14,9 +14,9 @@ import java.util.logging.Logger;
  * Created by Antonio Moreno Valls
  **/
 public class Bullet extends Thread {
-    public boolean hasCollided;
     private float dx, dy, speedX, speedY, radio, mass;
     private final Stack<Bullet> bulletStack;
+    private boolean isCollided;
     private ImageIcon bullet;
     private Mapcanvas mapcanvas;
 
@@ -84,7 +84,7 @@ public class Bullet extends Thread {
     public synchronized void paint(Graphics2D gr2D) {
         gr2D.drawImage(this.bullet.getImage(), (int) getDx(), (int) getDy(), null);
 
-        if (hasCollided) {
+        if (isCollided) {
             gr2D.drawImage(new ImageIcon(new SpriteSheetHandler("res/explosion03.png").crop(3, 0, 128, 128)).getImage()
                     , (int) getDx() - 45, (int) getDy() - 35, null);
         }
@@ -95,8 +95,8 @@ public class Bullet extends Thread {
         this.dy -= this.speedY;
     }
 
-    public void setHasCollided(boolean hasCollided) {
-        this.hasCollided = hasCollided;
+    public void setIsCollided(boolean isCollided) {
+        this.isCollided = isCollided;
     }
 
     @Override
@@ -115,7 +115,7 @@ public class Bullet extends Thread {
     public void remove() {
         synchronized (bulletStack) {
             if (!bulletStack.isEmpty()) {
-                if (hasCollided) {
+                if (isCollided) {
                     bulletStack.remove(this);
                 }
             }
