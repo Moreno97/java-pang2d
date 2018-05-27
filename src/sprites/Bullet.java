@@ -4,12 +4,8 @@ import gfx.SpriteSheetHandler;
 import mapanel.Collision;
 import mapanel.Mapcanvas;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,19 +16,18 @@ import static pang2d.Utils.playSound;
  * Created by Antonio Moreno Valls
  **/
 public class Bullet extends Thread {
-    private float dx, dy, speedX, speedY, radio, mass;
     private final Stack<Bullet> bulletStack;
+    private float dx, dy, radio, speedX, speedY;
     private boolean isCollided;
     private ImageIcon bullet;
     private Mapcanvas mapcanvas;
 
-    public Bullet(float dx, float dy, float speedX, float speedY, float radio, float mass, Mapcanvas mapcanvas, Stack<Bullet> bulletStack) {
+    public Bullet(float dx, float dy, float speedX, float speedY, float radio, Mapcanvas mapcanvas, Stack<Bullet> bulletStack) {
         this.dx = dx;
         this.dy = dy;
         this.speedX = speedX;
         this.speedY = speedY;
         this.radio = radio;
-        this.mass = mass;
         this.mapcanvas = mapcanvas;
         this.bulletStack = bulletStack;
         this.bullet = new ImageIcon(new SpriteSheetHandler("res/clash2.png")
@@ -43,48 +38,40 @@ public class Bullet extends Thread {
         return dx;
     }
 
-    public float getDy() {
-        return dy;
-    }
-
-    public float getSpeedX() {
-        return speedX;
-    }
-
-    public float getSpeedY() {
-        return speedY;
-    }
-
-    public float getRadio() {
-        return radio;
-    }
-
-    public float getMass() {
-        return mass;
-    }
-
     public void setDx(float dx) {
         this.dx = dx;
+    }
+
+    public float getDy() {
+        return dy;
     }
 
     public void setDy(float dy) {
         this.dy = dy;
     }
 
+    public float getSpeedX() {
+        return speedX;
+    }
+
     public void setSpeedX(float speedX) {
         this.speedX = speedX;
+    }
+
+    public float getSpeedY() {
+        return speedY;
     }
 
     public void setSpeedY(float speedY) {
         this.speedY = speedY;
     }
 
-    public void setRadio(float radio) {
-        this.radio = radio;
+    public float getRadio(){
+        return radio;
     }
 
-    public void setMass(float mass) {
-        this.mass = mass;
+    public void setRadio(float radio){
+        this.radio = radio;
     }
 
     public synchronized void paint(Graphics2D gr2D) {

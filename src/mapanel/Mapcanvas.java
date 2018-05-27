@@ -1,5 +1,6 @@
 package mapanel;
 
+import sprites.Ball;
 import sprites.Bullet;
 import sprites.Player;
 
@@ -14,16 +15,18 @@ import java.util.Stack;
 import static pang2d.Utils.playSound;
 
 public class Mapcanvas extends Canvas implements Runnable {
+    private static int widthC = 850, heightC = 570;
+    private final Stack<Bullet> bulletStack;
+    private final Stack<Ball> ballStack;
     private Image imgBgd;
     private URL urlimgBgd;
     private boolean start = true;
-    private static int widthC = 850, heightC = 570;
     private int titbl = 2;
     private Player player;
-    private final Stack<Bullet> bulletStack;
 
     public Mapcanvas() {
         bulletStack = new Stack<>();
+        ballStack = new Stack<>();
         initCanvas();
     }
 
@@ -51,8 +54,7 @@ public class Mapcanvas extends Canvas implements Runnable {
                 }
 
                 if (e.getKeyCode() == (KeyEvent.VK_K)) {
-                    Bullet b = new Bullet(player.getDx() + 40, player.getDy(), 0, 8, 10, 1,
-                            mapcanvas, bulletStack);
+                    Bullet b = new Bullet(player.getDx() + 40, player.getDy(), 0, 8, 10, mapcanvas, bulletStack);
                     playSound("res/sounds/weapon.wav");
 
                     // If bullets on screen is more than 3, don't allow player to shoot more
@@ -76,6 +78,12 @@ public class Mapcanvas extends Canvas implements Runnable {
     private void initSprites() {
         player = new Player((getWidth() / 2) - 20, getBounds().height - 90, 66, 66, this);
         new Thread(player).start();
+
+        for (int i = 0; i < 1; i++) {
+            Ball b = new Ball(0+40*(i+1), 0+40*(i+1), 60, 60, 42,2, 2, this, player);
+            ballStack.push(b);
+            b.start();
+        }
     }
 
     private BufferStrategy getBuffer() {
@@ -100,6 +108,12 @@ public class Mapcanvas extends Canvas implements Runnable {
         gr2D.drawImage(imgBgd, 0, 0, this);
         player.drawCharacter(gr2D);
 
+        synchronized (ballStack) {
+            for (Ball ball : ballStack) {
+                ball.draw(gr2D);
+            }
+        }
+
         synchronized (bulletStack) {
             for (Bullet bullet : bulletStack) {
                 bullet.paint(gr2D);
@@ -115,6 +129,7 @@ public class Mapcanvas extends Canvas implements Runnable {
         this.createBufferStrategy(2);
         while (true) {
             paint();
+
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {

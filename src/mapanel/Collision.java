@@ -1,9 +1,18 @@
 package mapanel;
 
+import javafx.scene.shape.Circle;
+import sprites.Ball;
 import sprites.Bullet;
 import sprites.Player;
 
+import java.awt.*;
+import java.util.Stack;
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class Collision {
+
+    public static boolean ballplayercollided = false;
 
 //    public static synchronized void checkBall2BallCollision(Item i, ArrayList<Item> items) {
 //        // Variables usadas en las comrobaciones
@@ -126,6 +135,28 @@ public class Collision {
             i.remove();
             i.setIsCollided(true);
         }
+    }
+
+    public static void checkBall2WallCollision(Ball i, Mapcanvas game) {
+        if (i.getDy() + i.getRadio() >= game.getHeight() || i.getDy() + i.getRadio() < 20) {
+            i.setspeedY((int)-i.getSpeedY());
+        }
+
+        if(i.getDx()+ i.getRadio() >= game.getWidth() || i.getDx() + i.getRadio() < 20){
+            i.setSpeedX((int)-i.getSpeedX());
+
+        }
+    }
+
+    public static boolean checkBall2PlayerCollision(Ball b, Player cg) {
+
+        Circle c = new Circle(b.getDx(), b.getDy(), b.getRadio());
+        if (c.intersects(cg.getDx(), cg.getDy(), cg.getX(), cg.getY())) {
+            return true;
+        }
+        return false;
+
+
     }
 
     public static void checkPlayer2WallCollision(Player cg, Mapcanvas game) {
