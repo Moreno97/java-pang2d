@@ -1,7 +1,6 @@
 package mapanel;
 
 import gfx.SpriteSheetHandler;
-import sprites.Block;
 import sprites.Bullet;
 import sprites.Player;
 
@@ -18,17 +17,16 @@ public class Mapcanvas extends Canvas implements Runnable {
     private Clock clk;
     private Image imgBgd, gun, gover, lifechar;
     private URL urlimgBgd;
-    private boolean start = true;
+    private boolean startI = false;
+    private boolean startG = true;
     private boolean over = true;
     private boolean boclock = false;
     private static int widthC = 853, heightC = 651;
     private int titbl = 2;
     private Player player;
     private final Stack<Bullet> bulletStack;
-    private final Stack<Block> blockStack;
 
     public Mapcanvas() {
-        blockStack = new Stack<>();
         bulletStack = new Stack<>();
         initCanvas();
     }
@@ -48,26 +46,33 @@ public class Mapcanvas extends Canvas implements Runnable {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == (KeyEvent.VK_D)) {
-                    player.toRight();
+                    if (startI) {
+                        player.toRight();
+                    }
                 }
 
                 if (e.getKeyCode() == (KeyEvent.VK_A)) {
-                    player.toLeft();
+                    if (startI) {
+                        player.toLeft();
+                    }
                 }
 
                 if (e.getKeyCode() == (KeyEvent.VK_K)) {
-                    Bullet b = new Bullet(player.getDx() + 45, player.getDy(), 0, 8, 10, 1,
-                            mapcanvas, bulletStack, blockStack);
-
-                    // If bullets on screen is more than 3, don't allow player to shoot more
-                    if (bulletStack.size() <= 2) {
-                        bulletStack.push(b);
+                    if (startI) {
+                        Bullet b = new Bullet(player.getDx() + 45, player.getDy(), 0, 8, 10, 1,
+                                mapcanvas, bulletStack, new Stack<>());
                         playSound("res/sounds/weapon.wav");
-                        b.start();
+
+                        // If bullets on screen is more than 3, don't allow player to shoot more
+                        if (bulletStack.size() <= 2) {
+                            bulletStack.push(b);
+                            b.start();
+                        }
                     }
                 }
+
                 if (e.getKeyCode() == (KeyEvent.VK_ENTER)) {
-                    start = false;
+                    startI = true;
                     startGame();
                 }
             }
@@ -80,28 +85,23 @@ public class Mapcanvas extends Canvas implements Runnable {
     }
 
     private void startGame() {
-        over = true;
-        imgBgd = new SpriteSheetHandler("res/imglevels/lv1.png").getImageWithoutCropping();
-        gun = new SpriteSheetHandler("res/pistola.png").getImageWithoutCropping();
-        lifechar = new SpriteSheetHandler("res/minichar.png").getImageWithoutCropping();
-        boclock = true;
-        clk = new Clock(121, true);
-        new Thread(clk).start();
+        if (startI && startG) {
+            over = true;
+            imgBgd = new SpriteSheetHandler("res/imglevels/lv1.png").getImageWithoutCropping();
+            gun = new SpriteSheetHandler("res/pistola.png").getImageWithoutCropping();
+            lifechar = new SpriteSheetHandler("res/minichar.png").getImageWithoutCropping();
+            boclock = true;
+            clk = new Clock(10, true);
+            new Thread(clk).start();
+            startG = false;
+        }
+
     }
 
 
     private void initSprites() {
         player = new Player((getWidth() / 2) - 20, getBounds().height - 190, 100, 100, this);
         new Thread(player).start();
-
-
-//        for (int i = 0; i < 3; i++) {
-//            Block block = new Block(100 * i, getHeight() / 2 - 50, (int) (100 * Math.random() + 20),  30,
-//                    this, blockStack);
-//            blockStack.push(block);
-//            block.start();
-//        }
-
     }
 
     private BufferStrategy getBuffer() {
@@ -126,7 +126,7 @@ public class Mapcanvas extends Canvas implements Runnable {
         gr2D.drawImage(imgBgd, 0, 0, this);
 
 
-        if (!start) {
+        if (startI) {
             player.drawCharacter(gr2D);
             gr2D.drawImage(gun, (getWidth() / 2) - 27, getBounds().height - 55, this);
             gr2D.drawImage(lifechar, getWidth() - 120, getBounds().height - 60, this);
@@ -135,10 +135,7 @@ public class Mapcanvas extends Canvas implements Runnable {
             gr2D.drawString("X 3", getWidth() - 78, getBounds().height - 28);
             gr2D.setFont(new Font("Times New Roman", Font.BOLD, 20));
             gr2D.drawString("SCORE", getWidth() - 350, getBounds().height - 55);
-        }
 
-        for (Block block : blockStack) {
-            block.paint(gr2D);
         }
 
         synchronized (bulletStack) {
@@ -177,17 +174,17 @@ public class Mapcanvas extends Canvas implements Runnable {
     public void run() {
         this.createBufferStrategy(2);
         try {
-            while (start) {
+            while (!startI) {
                 if (titbl == 1) {
                     imgBgd = new SpriteSheetHandler("res/imglevels/PantIni.png").getImageWithoutCropping();
                     titbl = 2;
-                    paint();
+
                 } else if (titbl == 2) {
                     imgBgd = new SpriteSheetHandler("res/imglevels/PantIni2.png").getImageWithoutCropping();
                     titbl = 1;
-                    paint();
                 }
-                Thread.sleep(1000);
+                paint();
+                Thread.sleep(500);
             }
             while (true) {
                 paint();
@@ -219,6 +216,3 @@ public class Mapcanvas extends Canvas implements Runnable {
 
 
 }
-
-
-
