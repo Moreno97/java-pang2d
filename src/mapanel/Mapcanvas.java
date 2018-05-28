@@ -16,7 +16,6 @@ import static pang2d.Utils.playSound;
 public class Mapcanvas extends Canvas implements Runnable {
     private Clock clk;
     private Image imgBgd, gun, gover, lifechar;
-    private URL urlimgBgd;
     private boolean startI = false;
     private boolean startG = true;
     private boolean over = false;
@@ -61,12 +60,12 @@ public class Mapcanvas extends Canvas implements Runnable {
                     if (startI & over) {
                         Bullet b = new Bullet(player.getDx() + 45, player.getDy(), 0, 8, 10, 1,
                                 mapcanvas, bulletStack, new Stack<>());
-                        playSound("res/sounds/weapon.wav");
 
                         // If bullets on screen is more than 3, don't allow player to shoot more
                         if (bulletStack.size() <= 2) {
                             bulletStack.push(b);
                             b.start();
+                            playSound("res/sounds/weapon.wav");
                         }
                     }
                 }
@@ -104,9 +103,7 @@ public class Mapcanvas extends Canvas implements Runnable {
             new Thread(clk).start();
             startG = false;
         }
-
     }
-
 
     private void initSprites() {
         player = new Player((getWidth() / 2) - 20, getBounds().height - 190, 100, 100, this);
