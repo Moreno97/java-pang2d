@@ -2,6 +2,7 @@ package mapanel;
 
 import javafx.scene.shape.Circle;
 import sprites.Ball;
+import sprites.Block;
 import sprites.Bullet;
 import sprites.Player;
 
@@ -130,6 +131,29 @@ public class Collision {
 //        }
 //    }
 
+    public static void checkBullet2BlockCollision(Bullet i, Stack<Block> obstacles) {
+        Circle c = new Circle(i.getDx(), i.getDy(), i.getRadio());
+        for (Block m : obstacles) {
+            if (c.intersects(m.getDx(), m.getDy(), m.getWidth(), m.getHeight())) {
+                if (i.getDx() <= m.getDx() || i.getDx() >= m.getWidth() + m.getDx()) {
+                    i.setIsCollided(true);
+                    i.remove();
+                }
+                if (i.getDy() <= m.getDy() || i.getDy() >= m.getWidth() + m.getDy()) {
+                    i.setIsCollided(true);
+                    i.remove();
+                }
+            }
+        }
+    }
+
+    public static void checkBullet2WallCollision(Bullet i, Mapcanvas game) {
+        if (i.getDy() + i.getRadio() >= game.getHeight() || i.getDy() - i.getRadio() <= -10) {
+            i.remove();
+            i.setIsCollided(true);
+        }
+    }
+
     public static void checkBall2WallCollision(Bullet i, Mapcanvas game) {
         if (i.getDy() + i.getRadio() >= game.getHeight() || i.getDy() - i.getRadio() <= -10) {
             i.remove();
@@ -155,7 +179,6 @@ public class Collision {
             return true;
         }
         return false;
-
 
     }
 

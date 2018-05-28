@@ -16,20 +16,23 @@ import static pang2d.Utils.playSound;
  * Created by Antonio Moreno Valls
  **/
 public class Bullet extends Thread {
+    private float dx, dy, speedX, speedY, radio, mass;
     private final Stack<Bullet> bulletStack;
-    private float dx, dy, radio, speedX, speedY;
+    private final Stack<Block> blockStack;
     private boolean isCollided;
     private ImageIcon bullet;
     private Mapcanvas mapcanvas;
 
-    public Bullet(float dx, float dy, float speedX, float speedY, float radio, Mapcanvas mapcanvas, Stack<Bullet> bulletStack) {
+    public Bullet(float dx, float dy, float speedX, float speedY, float radio, float mass, Mapcanvas mapcanvas, Stack<Bullet> bulletStack, Stack<Block> blockStack) {
         this.dx = dx;
         this.dy = dy;
         this.speedX = speedX;
         this.speedY = speedY;
         this.radio = radio;
+        this.mass = mass;
         this.mapcanvas = mapcanvas;
         this.bulletStack = bulletStack;
+        this.blockStack = blockStack;
         this.bullet = new ImageIcon(new SpriteSheetHandler("res/clash2.png")
                 .getImageWithoutCropping());
     }
@@ -38,40 +41,48 @@ public class Bullet extends Thread {
         return dx;
     }
 
-    public void setDx(float dx) {
-        this.dx = dx;
-    }
-
     public float getDy() {
         return dy;
-    }
-
-    public void setDy(float dy) {
-        this.dy = dy;
     }
 
     public float getSpeedX() {
         return speedX;
     }
 
-    public void setSpeedX(float speedX) {
-        this.speedX = speedX;
-    }
-
     public float getSpeedY() {
         return speedY;
+    }
+
+    public float getRadio() {
+        return radio;
+    }
+
+    public float getMass() {
+        return mass;
+    }
+
+    public void setDx(float dx) {
+        this.dx = dx;
+    }
+
+    public void setDy(float dy) {
+        this.dy = dy;
+    }
+
+    public void setSpeedX(float speedX) {
+        this.speedX = speedX;
     }
 
     public void setSpeedY(float speedY) {
         this.speedY = speedY;
     }
 
-    public float getRadio(){
-        return radio;
+    public void setRadio(float radio) {
+        this.radio = radio;
     }
 
-    public void setRadio(float radio){
-        this.radio = radio;
+    public void setMass(float mass) {
+        this.mass = mass;
     }
 
     public synchronized void paint(Graphics2D gr2D) {
@@ -96,7 +107,8 @@ public class Bullet extends Thread {
     @Override
     public void run() {
         while (true) {
-            Collision.checkBall2WallCollision(this, this.mapcanvas);
+            Collision.checkBullet2WallCollision(this, this.mapcanvas);
+            Collision.checkBullet2BlockCollision(this, this.blockStack);
             restDy();
             try {
                 Thread.sleep(20);
