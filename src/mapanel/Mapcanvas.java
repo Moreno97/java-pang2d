@@ -17,7 +17,8 @@ public class Mapcanvas extends Canvas implements Runnable{
     private Clock clk;
     private Image imgBgd,gun,gover,lifechar;
     private URL urlimgBgd;
-    private boolean start = true;
+    private boolean startI = false;
+    private boolean startG = true;
     private boolean over = true;
     private boolean boclock=false;
     private static int widthC = 853, heightC = 651;
@@ -64,7 +65,8 @@ public class Mapcanvas extends Canvas implements Runnable{
                     }
                 }
                 if (e.getKeyCode() == (KeyEvent.VK_ENTER)) {
-                    start = false;
+                    startI = true;
+
                     startGame();
                 }
             }
@@ -77,13 +79,17 @@ public class Mapcanvas extends Canvas implements Runnable{
     }
 
         private void startGame() {
-            over=true;
-            imgBgd = new SpriteSheetHandler("res/imglevels/lv1.png").getImageWithoutCropping();
-            gun  = new SpriteSheetHandler("res/pistola.png").getImageWithoutCropping();
-            lifechar=new SpriteSheetHandler("res/minichar.png").getImageWithoutCropping();
-            boclock = true;
-            clk =new Clock(121,true);
-            new Thread(clk).start();
+            if (startI && startG){
+                over=true;
+                imgBgd = new SpriteSheetHandler("res/imglevels/lv1.png").getImageWithoutCropping();
+                gun  = new SpriteSheetHandler("res/pistola.png").getImageWithoutCropping();
+                lifechar=new SpriteSheetHandler("res/minichar.png").getImageWithoutCropping();
+                boclock = true;
+                clk =new Clock(10,true);
+                new Thread(clk).start();
+                startG=false;
+            }
+
         }
 
 
@@ -114,7 +120,7 @@ public class Mapcanvas extends Canvas implements Runnable{
         gr2D.drawImage(imgBgd, 0 , 0, this);
 
 
-        if(!start){
+        if(startI){
             player.drawCharacter(gr2D);
             gr2D.drawImage(gun, (getWidth()/2)-27 , getBounds().height- 55, this);
             gr2D.drawImage(lifechar, getWidth()-120 , getBounds().height- 60, this);
@@ -123,6 +129,7 @@ public class Mapcanvas extends Canvas implements Runnable{
             gr2D.drawString("X 3", getWidth()-78, getBounds().height- 28);
             gr2D.setFont(new Font("Times New Roman",Font.BOLD,20));
             gr2D.drawString("SCORE", getWidth()-350, getBounds().height- 55);
+
         }
 
         synchronized (bulletStack) {
@@ -161,19 +168,18 @@ public class Mapcanvas extends Canvas implements Runnable{
     public void run() {
         this.createBufferStrategy(2);
         try {
-            while (start) {
+            while (!startI) {
                 if (titbl == 1) {
                     imgBgd = new SpriteSheetHandler("res/imglevels/PantIni.png").getImageWithoutCropping();
                     titbl = 2;
-                    paint();
-                    Thread.sleep(1000);
 
                 } else if (titbl == 2) {
                     imgBgd = new SpriteSheetHandler("res/imglevels/PantIni2.png").getImageWithoutCropping();
                     titbl = 1;
-                    paint();
-                    Thread.sleep(1000);
                 }
+
+                paint();
+                Thread.sleep(500);
             }
             while (true) {
 
