@@ -3,6 +3,7 @@ package mapanel;
 import gfx.SpriteSheetHandler;
 import sprites.Bullet;
 import sprites.Player;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -13,14 +14,14 @@ import java.util.Stack;
 
 import static pang2d.Utils.playSound;
 
-public class Mapcanvas extends Canvas implements Runnable{
+public class Mapcanvas extends Canvas implements Runnable {
     private Clock clk;
-    private Image imgBgd,gun,gover,lifechar;
+    private Image imgBgd, gun, gover, lifechar;
     private URL urlimgBgd;
     private boolean startI = false;
     private boolean startG = true;
     private boolean over = true;
-    private boolean boclock=false;
+    private boolean boclock = false;
     private static int widthC = 853, heightC = 651;
     private int titbl = 2;
     private Player player;
@@ -78,19 +79,19 @@ public class Mapcanvas extends Canvas implements Runnable{
         });
     }
 
-        private void startGame() {
-            if (startI && startG){
-                over=true;
-                imgBgd = new SpriteSheetHandler("res/imglevels/lv1.png").getImageWithoutCropping();
-                gun  = new SpriteSheetHandler("res/pistola.png").getImageWithoutCropping();
-                lifechar=new SpriteSheetHandler("res/minichar.png").getImageWithoutCropping();
-                boclock = true;
-                clk =new Clock(10,true);
-                new Thread(clk).start();
-                startG=false;
-            }
-
+    private void startGame() {
+        if (startI && startG) {
+            over = true;
+            imgBgd = new SpriteSheetHandler("res/imglevels/lv1.png").getImageWithoutCropping();
+            gun = new SpriteSheetHandler("res/pistola.png").getImageWithoutCropping();
+            lifechar = new SpriteSheetHandler("res/minichar.png").getImageWithoutCropping();
+            boclock = true;
+            clk = new Clock(10, true);
+            new Thread(clk).start();
+            startG = false;
         }
+
+    }
 
 
     private void initSprites() {
@@ -117,18 +118,18 @@ public class Mapcanvas extends Canvas implements Runnable{
         Graphics2D gr2D = (Graphics2D) bs.getDrawGraphics();
         gr2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
-        gr2D.drawImage(imgBgd, 0 , 0, this);
+        gr2D.drawImage(imgBgd, 0, 0, this);
 
 
-        if(startI){
+        if (startI) {
             player.drawCharacter(gr2D);
-            gr2D.drawImage(gun, (getWidth()/2)-27 , getBounds().height- 55, this);
-            gr2D.drawImage(lifechar, getWidth()-120 , getBounds().height- 60, this);
+            gr2D.drawImage(gun, (getWidth() / 2) - 27, getBounds().height - 55, this);
+            gr2D.drawImage(lifechar, getWidth() - 120, getBounds().height - 60, this);
             gr2D.setColor(Color.WHITE);
-            gr2D.setFont(new Font("Times New Roman",Font.BOLD,30));
-            gr2D.drawString("X 3", getWidth()-78, getBounds().height- 28);
-            gr2D.setFont(new Font("Times New Roman",Font.BOLD,20));
-            gr2D.drawString("SCORE", getWidth()-350, getBounds().height- 55);
+            gr2D.setFont(new Font("Times New Roman", Font.BOLD, 30));
+            gr2D.drawString("X 3", getWidth() - 78, getBounds().height - 28);
+            gr2D.setFont(new Font("Times New Roman", Font.BOLD, 20));
+            gr2D.drawString("SCORE", getWidth() - 350, getBounds().height - 55);
 
         }
 
@@ -138,16 +139,16 @@ public class Mapcanvas extends Canvas implements Runnable{
             }
         }
 
-        if(boclock) {
-            if(clk.getSegundos()> 0){
+        if (boclock) {
+            if (clk.getSegundos() > 0) {
                 gr2D.setColor(Color.WHITE);
-                gr2D.setFont(new Font("Times New Roman",Font.BOLD,40));
-                gr2D.drawString("TIME:"+String.valueOf(clk.getSegundos()), 30, 625);
-            }else{
-                gr2D.setFont(new Font("Times New Roman",Font.BOLD,40));
-                gr2D.drawString("TIME:"+String.valueOf(clk.getSegundos()), 30, 625);
-                gover=new SpriteSheetHandler("res/imglevels/gover.png").getImageWithoutCropping();
-                gr2D.drawImage(gover, 0 , 0, this);
+                gr2D.setFont(new Font("Times New Roman", Font.BOLD, 40));
+                gr2D.drawString("TIME:" + String.valueOf(clk.getSegundos()), 30, 625);
+            } else {
+                gr2D.setFont(new Font("Times New Roman", Font.BOLD, 40));
+                gr2D.drawString("TIME:" + String.valueOf(clk.getSegundos()), 30, 625);
+                gover = new SpriteSheetHandler("res/imglevels/gover.png").getImageWithoutCropping();
+                gr2D.drawImage(gover, 0, 0, this);
                 player.changeCharacter();
                 soundGameOver();
             }
@@ -158,8 +159,8 @@ public class Mapcanvas extends Canvas implements Runnable{
     }
 
     private void soundGameOver() {
-        if(over) {
-            over=false;
+        if (over) {
+            over = false;
             playSound("res/levels/sounds/GameOver_Triste.wav");
         }
     }
@@ -209,7 +210,6 @@ public class Mapcanvas extends Canvas implements Runnable{
         }
 
     }*/
-
 
 
 }
