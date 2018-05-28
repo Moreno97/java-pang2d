@@ -1,14 +1,10 @@
 package mapanel;
 
-<<<<<<< HEAD
-import sprites.Ball;
-=======
 import gfx.SpriteSheetHandler;
->>>>>>> master
+import sprites.Ball;
 import sprites.Bullet;
 import sprites.Player;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -19,25 +15,18 @@ import java.util.Stack;
 import static pang2d.Utils.playSound;
 
 public class Mapcanvas extends Canvas implements Runnable {
-    private static int widthC = 850, heightC = 570;
+    private static int widthC = 853, heightC = 651;
     private final Stack<Bullet> bulletStack;
     private final Stack<Ball> ballStack;
-    private Image imgBgd;
+    private Clock clk;
+    private Image imgBgd, gun, gover, lifechar;
     private URL urlimgBgd;
-<<<<<<< HEAD
-    private boolean start = true;
-    private int titbl = 2;
-    private Player player;
-=======
     private boolean startI = false;
     private boolean startG = true;
     private boolean over = true;
     private boolean boclock = false;
-    private static int widthC = 853, heightC = 651;
     private int titbl = 2;
     private Player player;
-    private final Stack<Bullet> bulletStack;
->>>>>>> master
 
     public Mapcanvas() {
         bulletStack = new Stack<>();
@@ -46,8 +35,7 @@ public class Mapcanvas extends Canvas implements Runnable {
     }
 
     private void initCanvas() {
-        urlimgBgd = this.getClass().getResource("images/lv1.png");
-        imgBgd = new ImageIcon(urlimgBgd).getImage();
+        imgBgd = new SpriteSheetHandler("res/imglevels/PantIni.png").getImageWithoutCropping();
         setSize(widthC, heightC);
         initSprites();
         setFocusable(true);
@@ -73,17 +61,6 @@ public class Mapcanvas extends Canvas implements Runnable {
                 }
 
                 if (e.getKeyCode() == (KeyEvent.VK_K)) {
-<<<<<<< HEAD
-                    Bullet b = new Bullet(player.getDx() + 40, player.getDy(), 0, 8, 10, mapcanvas, bulletStack);
-                    playSound("res/sounds/weapon.wav");
-
-                    // If bullets on screen is more than 3, don't allow player to shoot more
-                    if (bulletStack.size() <= 2) {
-                        bulletStack.push(b);
-                        b.start();
-                    }
-                }
-=======
                     if (startI) {
                         Bullet b = new Bullet(player.getDx() + 45, player.getDy(), 0, 8, 10, 1,
                                 mapcanvas, bulletStack, new Stack<>());
@@ -101,18 +78,15 @@ public class Mapcanvas extends Canvas implements Runnable {
                     startI = true;
                     startGame();
                 }
->>>>>>> master
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
 
             }
-
         });
+    }
 
-<<<<<<< HEAD
-=======
     private void startGame() {
         if (startI && startG) {
             over = true;
@@ -126,22 +100,17 @@ public class Mapcanvas extends Canvas implements Runnable {
         }
 
     }
->>>>>>> master
-
-    }
 
     private void initSprites() {
-        player = new Player((getWidth() / 2) - 20, getBounds().height - 90, 66, 66, this);
+        player = new Player((getWidth() / 2) - 20, getBounds().height - 190, 100, 100, this);
         new Thread(player).start();
-<<<<<<< HEAD
 
         for (int i = 0; i < 1; i++) {
-            Ball b = new Ball(0+40*(i+1), 0+40*(i+1), 60, 60, 42,2, 2, this, player);
+            Ball b = new Ball(0 + 40 * (i + 1), 0 + 40 * (i + 1), 60, 60, 42, 2, 2, this, player);
             ballStack.push(b);
             b.start();
         }
-=======
->>>>>>> master
+
     }
 
     private BufferStrategy getBuffer() {
@@ -164,14 +133,7 @@ public class Mapcanvas extends Canvas implements Runnable {
         gr2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
         gr2D.drawImage(imgBgd, 0, 0, this);
-        player.drawCharacter(gr2D);
 
-<<<<<<< HEAD
-        synchronized (ballStack) {
-            for (Ball ball : ballStack) {
-                ball.draw(gr2D);
-            }
-=======
 
         if (startI) {
             player.drawCharacter(gr2D);
@@ -183,28 +145,33 @@ public class Mapcanvas extends Canvas implements Runnable {
             gr2D.setFont(new Font("Times New Roman", Font.BOLD, 20));
             gr2D.drawString("SCORE", getWidth() - 350, getBounds().height - 55);
 
->>>>>>> master
         }
 
-        synchronized (bulletStack) {
-            for (Bullet bullet : bulletStack) {
-                bullet.paint(gr2D);
+        synchronized (ballStack) {
+            for (Ball ball : ballStack) {
+                ball.draw(gr2D);
             }
         }
+            synchronized (bulletStack) {
+                for (Bullet bullet : bulletStack) {
+                    bullet.paint(gr2D);
+                }
+            }
 
-        bs.show();
-        gr2D.dispose();
+            bs.show();
+            gr2D.dispose();
+        }
+
+    private void soundGameOver() {
+        if (over) {
+            over = false;
+            playSound("res/levels/sounds/GameOver_Triste.wav");
+        }
     }
 
     @Override
     public void run() {
         this.createBufferStrategy(2);
-<<<<<<< HEAD
-        while (true) {
-            paint();
-
-            try {
-=======
         try {
             while (!startI) {
                 if (titbl == 1) {
@@ -220,17 +187,12 @@ public class Mapcanvas extends Canvas implements Runnable {
             }
             while (true) {
                 paint();
->>>>>>> master
                 Thread.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
-
-<<<<<<< HEAD
-}
-=======
 
     /*private void mapLvs(int cod) {
         switch (cod) {
@@ -252,4 +214,3 @@ public class Mapcanvas extends Canvas implements Runnable {
 
 
 }
->>>>>>> master
