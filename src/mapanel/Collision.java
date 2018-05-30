@@ -1,14 +1,16 @@
 package mapanel;
 
 import javafx.scene.shape.Circle;
+import sprites.Ball;
 import sprites.Block;
 import sprites.Bullet;
 import sprites.Player;
 
-import java.util.ArrayList;
 import java.util.Stack;
 
 public class Collision {
+
+    public static boolean ballplayercollided = false;
 
 //    public static synchronized void checkBall2BallCollision(Item i, ArrayList<Item> items) {
 //        // Variables usadas en las comrobaciones
@@ -91,37 +93,102 @@ public class Collision {
 //    }
 
 //    // Colisión entre el jugador y un objeto de tipo 'Block'.
-//    public static void checkBall2BlockCollision(Player cg, ArrayList<Block> blocks) {
+//    public static void checkBall2BlockCollision(CharacterGame cg, ArrayList<Block> blocks) {
 //        Circle c = new Circle(cg.getDx(), cg.getDy(), cg.getX());
 //        blocks.stream().map((obs) -> {
-//            if (cg.getDx() >= obs.getDx() && cg.getDx() <= obs.getWidth() + obs.getDx() && cg.getDy()
-//                    >= obs.getDy() && cg.getDy() <= obs.getHeight() + obs.getDy()) {
+//            if (cg.getDx() >= obs.posX && cg.getDx() <= obs.width + obs.posX && cg.getDy()>= obs.posY && cg.getDy() <= obs.height + obs.posY) {
 //
 //            }
 //            return obs;
 //        }).filter((obs) -> (c.intersects(obs.posX, obs.posY, obs.width, obs.height
-//        ))).peek((obs) -> {
+//        ))).map((obs) -> {
 //            if (cg.getDx() <= obs.posX || cg.getDx() >= obs.width + obs.posX) {
 //                cg.rebotaX();
 //            }
+//            return obs;
 //        }).filter((obs) -> (cg.getDy() <= obs.posY || cg.getDy() >= obs.height + obs.posY)).forEachOrdered((_item) -> {
 //            cg.rebotaY();
 //        });
 //    }
 
-    // Colisión entre Bullet y un objeto de tipo Block.
-    public static void checkBullet2BlockCollision(Bullet i, Stack<Block> obstacles) {
+    //    // Colisión entre el Item y un objeto de tipo 'BlackHole'.
+//    public static void checkBall2HoleCollision(Item i, ArrayList<BlackHole> obstacles) {
+//        Circle c = new Circle(i.dx, i.dy, i.radio);
+//        for (BlackHole m : obstacles) {
+//            if (c.intersects(m.getDx(), m.getDy(), m.radio, m.radio)) {
+//                if (i.getDx() <= m.getDx() || i.getDx() >= m.radio + m.getDx()) {
+//                    System.out.println("Choque en el EJE X");
+//                    i.rebotaX();
+//                }
+//                if (i.getDy() <= m.getDy() || i.getDy() >= m.radio + m.getDy()) {
+//                    System.out.println("Choque en el EJE Y");
+//                    i.rebotaY();
+//                }
+//            }
+//        }
+//    }
+
+    public static void checkBall2BallCollision(Ball b, Stack<Ball> ballStack){
+        for (Ball ball : ballStack){
+            if(b != ball){
+                Circle c = new Circle(b.getDx(), b.getDy(), b.getRadio());
+
+                if (c.intersects(ball.getDx(), ball.getDy(), ball.getX(), ball.getY())) {
+                    if (b.getDx() <= ball.getDx() || b.getDx() >= ball.getX() + ball.getDx()) {
+                        b.setSpeedX((int) -b.getSpeedX());
+                        ball.setSpeedX((int) -ball.getSpeedX());
+                    }
+                    if (b.getDy() <= ball.getDy() || b.getDy() >= ball.getY() + ball.getDy()) {
+                        b.setspeedY((int) -b.getSpeedY());
+                        ball.setspeedY((int) -ball.getSpeedY());
+                    }
+                }
+
+            }
+
+
+        }
+
+    }
+
+    public static void checkBullet2BlockCollision(Bullet i, Stack<Block> blockStack) {
         Circle c = new Circle(i.getDx(), i.getDy(), i.getRadio());
-        for (Block m : obstacles) {
+        for (Block m : blockStack) {
             if (c.intersects(m.getDx(), m.getDy(), m.getWidth(), m.getHeight())) {
                 if (i.getDx() <= m.getDx() || i.getDx() >= m.getWidth() + m.getDx()) {
                     i.setIsCollided(true);
                     i.remove();
                 }
+
                 if (i.getDy() <= m.getDy() || i.getDy() >= m.getWidth() + m.getDy()) {
                     i.setIsCollided(true);
                     i.remove();
                 }
+            }
+        }
+    }
+
+    public static void checkBullet2BallCollision(Bullet i, Mapcanvas game) {
+        Circle c = new Circle(i.getDx(), i.getDy(), i.getRadio());
+
+        Stack<Ball> pila = game.getBalls();
+
+        for (Ball b : pila) {
+            if (c.intersects(b.getDx(), b.getDy(), b.getX(), b.getY())) {
+                if (i.getDx() <= b.getDx() || i.getDx() >= b.getX() + b.getDx()) {
+                    i.setIsCollided(true);
+                    i.remove();
+                    b.remove();
+                    
+                }
+
+                if (i.getDy() <= b.getDy() || i.getDy() >= b.getY() + b.getDy()) {
+                    i.setIsCollided(true);
+                    i.remove();
+                    b.remove();
+
+                }
+
             }
         }
     }
@@ -133,25 +200,67 @@ public class Collision {
         }
     }
 
-    public static void checkPlayer2WallCollision(Player cg, Mapcanvas game) {
-        if (cg.getDx() + cg.getX() >= game.getWidth()) {
-            cg.setDx(game.getWidth() - 80);
+    public static void checkBall2WallCollision(Ball i, Mapcanvas game) {
+        if (i.getDy() + i.getRadio() >= (game.getHeight() - 10) || i.getDy() + i.getRadio() < 20) {
+            i.setspeedY((int) -i.getSpeedY());
         }
 
-        if (cg.getDx() + cg.getX() <= game.getBounds().getX() + 40) {
+        if (i.getDx() + i.getRadio() >= (game.getWidth() - 10) || i.getDx() + i.getRadio() < 20) {
+            i.setSpeedX((int) -i.getSpeedX());
+
+        }
+    }
+
+    public static void checkBall2PlayerCollision(Stack<Ball> ballStack, Player cg) {
+
+        for (Ball b : ballStack) {
+
+            Circle c = new Circle(b.getDx(), b.getDy(), b.getRadio());
+
+            if (c.intersects(cg.getDx(), cg.getDy(), cg.getX(), cg.getY())) {
+                if (b.getDx() <= cg.getDx() || b.getDx() >= cg.getX() + cg.getDx()) {
+                    b.setSpeedX((int) -b.getSpeedX());
+                }
+                if (b.getDy() <= cg.getDy() || b.getDy() >= cg.getY() + cg.getDy()) {
+                    b.setspeedY((int) -b.getSpeedY());
+                }
+                cg.setLife(cg.getLife()-1);
+                System.out.println(cg.getLife());
+            }
+        }
+
+    }
+
+    public static void checkPlayer2WallCollision(Player cg, Mapcanvas game) {
+        if (cg.getDx() + cg.getX() >= game.getWidth()) {
+            cg.setDx(game.getWidth() - 50);
+        }
+
+        if (cg.getDx() + cg.getX() <= game.getBounds().getX() + 30) {
             cg.setDx((int) game.getBounds().getX());
         }
     }
 
-//    public static void checkBall2ObstacleCollision(Item b, ArrayList<CharacterGame> obstacles) {
-//        Circle c = new Circle(b.dx, b.dy, b.radio);
-//        obstacles.stream().filter((obs) -> (c.intersects(obs.getDx(), obs.getDy(), obs.getX(), obs.getY()))).map((obs) -> {
-//            if (b.dx <= obs.getDx() || b.dx >= obs.getX() + obs.getY()) {
-//                b.rebotaX();
-//            }
-//            return obs;
-//        }).filter((obs) -> (b.dy <= obs.getDy() || b.dy >= obs.getX() + obs.getDy())).forEachOrdered((_item) -> {
-//            b.rebotaY();
-//        });
-//    }
+    public static void checkBall2BlockCollision(Ball b, Stack<Block> blockStack) {
+        Circle c = new Circle(b.getDx(), b.getDy(), b.getRadio());
+
+        for (Block m : blockStack) {
+            if (c.intersects(m.getDx(), m.getDy(), m.getWidth(), m.getHeight())) {
+
+                //b.setDx((int)(b.getDx() - b.getSpeedX()) / 20);
+                //b.setDy((int)(b.getDy() - b.getSpeedY()) / 20);
+
+                if (b.getDx() <= m.getDx() || b.getDx() >= m.getWidth() + m.getDx()) {
+                    b.setSpeedX((int) -b.getSpeedX());
+                }
+                if (b.getDy() <= m.getDy() || b.getDy() >= m.getWidth() + m.getDy()) {
+                    b.setspeedY((int) -b.getSpeedY());
+                }
+
+            }
+        }
+
+
+    }
+
 }

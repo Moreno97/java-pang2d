@@ -11,17 +11,15 @@ import java.util.Stack;
 public class Block extends Thread {
     private float dx, dy;
     private int width, height;
-    private final Stack<Block> blockStack;
     private boolean isCollided;
     private Mapcanvas mapcanvas;
 
-    public Block(float dx, float dy, int width, int height, Mapcanvas mapcanvas, Stack<Block> blockStack) {
+    public Block(float dx, float dy, int width, int height, Mapcanvas mapcanvas) {
         this.dx = dx;
         this.dy = dy;
         this.width = width;
         this.height = height;
         this.mapcanvas = mapcanvas;
-        this.blockStack = blockStack;
     }
 
     public float getDx() {
@@ -31,7 +29,6 @@ public class Block extends Thread {
     public float getDy() {
         return dy;
     }
-
 
     public void setDx(float dx) {
         this.dx = dx;

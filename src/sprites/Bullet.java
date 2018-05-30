@@ -19,11 +19,12 @@ public class Bullet extends Thread {
     private float dx, dy, speedX, speedY, radio, mass;
     private final Stack<Bullet> bulletStack;
     private final Stack<Block> blockStack;
+    private final Stack<Ball> ballStack;
     private boolean isCollided;
     private ImageIcon bullet;
     private Mapcanvas mapcanvas;
 
-    public Bullet(float dx, float dy, float speedX, float speedY, float radio, float mass, Mapcanvas mapcanvas, Stack<Bullet> bulletStack, Stack<Block> blockStack) {
+    public Bullet(float dx, float dy, float speedX, float speedY, float radio, float mass, Mapcanvas mapcanvas, Stack<Bullet> bulletStack, Stack<Block> blockStack, Stack<Ball> ballStack) {
         this.dx = dx;
         this.dy = dy;
         this.speedX = speedX;
@@ -33,6 +34,7 @@ public class Bullet extends Thread {
         this.mapcanvas = mapcanvas;
         this.bulletStack = bulletStack;
         this.blockStack = blockStack;
+        this.ballStack = ballStack;
         this.bullet = new ImageIcon(new SpriteSheetHandler("res/clash2.png")
                 .getImageWithoutCropping());
     }
@@ -108,6 +110,7 @@ public class Bullet extends Thread {
         while (true) {
             Collision.checkBullet2WallCollision(this, this.mapcanvas);
             Collision.checkBullet2BlockCollision(this, this.blockStack);
+            Collision.checkBullet2BallCollision(this, this.mapcanvas);
             restDy();
             try {
                 Thread.sleep(20);

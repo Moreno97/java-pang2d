@@ -100,12 +100,12 @@ public class Player extends Sprite {
 
     public void changeCharacter() {
         //this.dx = dx - 60;
-            this.character = new ImageIcon(new SpriteSheetHandler("res/sprites.png").crop(4, 1, 47, 49));
-            try {
-                Thread.sleep(25);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        this.character = new ImageIcon(new SpriteSheetHandler("res/sprites.png").crop(4, 1, 47, 49));
+        try {
+            Thread.sleep(25);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
