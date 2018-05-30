@@ -168,24 +168,27 @@ public class Collision {
         }
     }
 
-    public static void checkBullet2BallCollision(Bullet i, Stack<Ball> ballStack) {
+    public static void checkBullet2BallCollision(Bullet i, Mapcanvas game) {
         Circle c = new Circle(i.getDx(), i.getDy(), i.getRadio());
 
-        for (Ball b : ballStack) {
+        Stack<Ball> pila = game.getBalls();
+
+        for (Ball b : pila) {
             if (c.intersects(b.getDx(), b.getDy(), b.getX(), b.getY())) {
                 if (i.getDx() <= b.getDx() || i.getDx() >= b.getX() + b.getDx()) {
                     i.setIsCollided(true);
                     i.remove();
                     b.remove();
-
+                    
                 }
 
                 if (i.getDy() <= b.getDy() || i.getDy() >= b.getY() + b.getDy()) {
                     i.setIsCollided(true);
                     i.remove();
                     b.remove();
-                    
+
                 }
+
             }
         }
     }

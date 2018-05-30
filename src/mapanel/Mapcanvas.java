@@ -217,6 +217,11 @@ public class Mapcanvas extends Canvas implements Runnable {
     }
 
 
+    public Stack<Ball> getBalls() {
+        return ballStack;
+    }
+
+
     /*private void mapLvs(int cod) {
         switch (cod) {
             case 2:

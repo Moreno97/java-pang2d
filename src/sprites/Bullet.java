@@ -111,7 +111,7 @@ public class Bullet extends Thread {
         while (true) {
             Collision.checkBullet2WallCollision(this, this.mapcanvas);
             Collision.checkBullet2BlockCollision(this, this.blockStack);
-            Collision.checkBullet2BallCollision(this, this.ballStack);
+            Collision.checkBullet2BallCollision(this, this.mapcanvas);
             restDy();
             try {
                 Thread.sleep(20);
