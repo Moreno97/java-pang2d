@@ -99,7 +99,7 @@ public class Mapcanvas extends Canvas implements Runnable {
             gun = new SpriteSheetHandler("res/pistola.png").getImageWithoutCropping();
             lifechar = new SpriteSheetHandler("res/minichar.png").getImageWithoutCropping();
             boclock = true;
-            clk = new Clock(10, true);
+            clk = new Clock(121, true);
             new Thread(clk).start();
             startG = false;
         }

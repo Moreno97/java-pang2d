@@ -4,12 +4,8 @@ import gfx.SpriteSheetHandler;
 import mapanel.Collision;
 import mapanel.Mapcanvas;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -100,8 +96,7 @@ public class Bullet extends Thread {
     }
 
     private void restDy() {
-        // TODO: Set physics to reduce bullet speed
-        this.dy -= this.speedY;
+        dy -= speedY;
     }
 
     public void setIsCollided(boolean isCollided) {
