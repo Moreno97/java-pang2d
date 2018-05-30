@@ -27,10 +27,12 @@ public class Mapcanvas extends Canvas implements Runnable {
     private Player player;
     private final Stack<Bullet> bulletStack;
     private final Stack<Block> blockStack;
+    private final Stack<Ball> ballStack;
 
     public Mapcanvas() {
         blockStack = new Stack<>();
         bulletStack = new Stack<>();
+        ballStack = new Stack<>();
         initCanvas();
     }
 
@@ -58,7 +60,7 @@ public class Mapcanvas extends Canvas implements Runnable {
 
                 if (e.getKeyCode() == (KeyEvent.VK_K)) {
                     Bullet b = new Bullet(player.getDx() + 45, player.getDy(), 0, 8, 10, 1,
-                            mapcanvas, bulletStack, blockStack);
+                            mapcanvas, bulletStack, blockStack, ballStack);
 
                     // If bullets on screen is more than 3, don't allow player to shoot more
                     if (bulletStack.size() <= 2) {
@@ -94,17 +96,24 @@ public class Mapcanvas extends Canvas implements Runnable {
         player = new Player((getWidth() / 2) - 20, getBounds().height - 190, 100, 100, this);
         new Thread(player).start();
 
-     //   for (int i = 0; i < 1; i++) {
- //           Ball b = new Ball(0 + 40 * (i + 1), 0 + 40 * (i + 1), 60, 60, 42, 2, 2, this, player);
-//            ballStack.push(b);
-//            b.start();
-//        }
+        for (int i = 0; i < 3; i++) {
+            Ball b = new Ball(100+(i*50), 200+(i*30), 60, 60,3, 2, 2, this, blockStack, ballStack);
+            ballStack.push(b);
+            b.start();
+        }
+
+        for (int i=0; i < 2; i++){
+            Block b = new Block(50+(i*300), 150, 80,20,this);
+            blockStack.push(b);
+            b.start();
+        }
 
     }
 
     private BufferStrategy getBuffer() {
         return getBufferStrategy();
     }
+
     private synchronized void paint() {
         BufferStrategy bs;
         bs = getBuffer();
@@ -132,10 +141,18 @@ public class Mapcanvas extends Canvas implements Runnable {
             gr2D.drawString("X 3", getWidth() - 78, getBounds().height - 28);
             gr2D.setFont(new Font("Times New Roman", Font.BOLD, 20));
             gr2D.drawString("SCORE", getWidth() - 350, getBounds().height - 55);
-        }
 
-        for (Block block : blockStack) {
-            block.paint(gr2D);
+
+            synchronized (ballStack){
+                for (Ball b : ballStack) {
+                    b.draw(gr2D);
+                }
+            }
+
+            for (Block block : blockStack) {
+                block.paint(gr2D);
+            }
+
         }
 
         synchronized (bulletStack) {
@@ -149,6 +166,7 @@ public class Mapcanvas extends Canvas implements Runnable {
                 gr2D.setColor(Color.WHITE);
                 gr2D.setFont(new Font("Times New Roman", Font.BOLD, 40));
                 gr2D.drawString("TIME:" + String.valueOf(clk.getSegundos()), 30, 625);
+
             } else {
                 gr2D.setFont(new Font("Times New Roman", Font.BOLD, 40));
                 gr2D.drawString("TIME:" + String.valueOf(clk.getSegundos()), 30, 625);
@@ -156,6 +174,7 @@ public class Mapcanvas extends Canvas implements Runnable {
                 gr2D.drawImage(gover, 0, 0, this);
                 player.changeCharacter();
                 soundGameOver();
+
             }
 
         }
@@ -184,10 +203,12 @@ public class Mapcanvas extends Canvas implements Runnable {
                     titbl = 1;
                     paint();
                 }
+
                 Thread.sleep(1000);
             }
             while (true) {
                 paint();
+                Collision.checkBall2PlayerCollision(ballStack, player);
                 Thread.sleep(10);
             }
         } catch (Exception e) {

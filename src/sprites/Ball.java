@@ -7,34 +7,35 @@ import mapanel.Mapcanvas;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Stack;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static mapanel.Collision.checkBall2BlockCollision;
 import static mapanel.Collision.checkBall2PlayerCollision;
 import static mapanel.Collision.checkBall2WallCollision;
 
 public class Ball extends Thread {
 
-    private int x, y , dx, dy, radio, speedX, speedY;
+    private int x, y , dx, dy, radio, speedX, speedY, health;
     private Mapcanvas game;
     private ImageIcon img;
-    private Player cg;
-    public Ball actualBall = this;
+    private Stack<Block> blockStack;
+    private Stack<Ball> ballStack;
 
 
-    public Ball(int dx, int dy, int x, int y, int radio, int speedX, int speedY, Mapcanvas game, Player cg) {
+    public Ball(int dx, int dy, int x, int y, int health, int speedX, int speedY, Mapcanvas game, Stack<Block> blockStack, Stack<Ball> ballStack) {
         //super(dx, dy, x, y);
         this.x = x;
         this.y = y;
         this.dx = dx;
         this.dy = dy;
-        this.radio = radio;
-        this.cg = cg;
+        this.health = health;
+        this.radio = x/3;
         this.speedX = speedX;
         this.speedY = speedY;
         this.game = game;
+        this.blockStack = blockStack;
+        this.ballStack = ballStack;
         this.img = new ImageIcon(new SpriteSheetHandler("res/ballon.png").crop(0, 0, 39, 40));
     }
 
@@ -42,8 +43,24 @@ public class Ball extends Thread {
         return x;
     }
 
+    public void setX(int x){
+        this.x=x;
+    }
+
     public int getY(){
         return y;
+    }
+
+    public void setY(int y){
+        this.y=y;
+    }
+
+    public int getHealth(){
+        return this.health;
+    }
+
+    public void setHealth(int health){
+        this.health = health;
     }
 
     public int getDx() {
@@ -83,7 +100,6 @@ public class Ball extends Thread {
     }
 
     private void movementX() {
-        // TODO: Set physics to reduce bullet speed
         this.dx += this.speedX;
     }
 
@@ -95,25 +111,23 @@ public class Ball extends Thread {
         gr2D.drawImage(img.getImage(), getDx(), getDy(), getX(), getY(), null);
     }
 
+    public void remove() {
+        synchronized (ballStack) {
+            if (!ballStack.isEmpty()) {
+                    ballStack.remove(this);
+
+            }
+        }
+    }
+
     @Override
     public void run() {
         try {
             while (true) {
                 //Collision
-                checkBall2WallCollision(this, this.game);
-                Timer time = new Timer();
-                time.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-
-                        if (checkBall2PlayerCollision(actualBall, cg)) {
-                            cg.setLife(cg.getLife() - 1);
-                            System.out.println(cg.getLife());
-                        }
-
-                        }
-
-                }, 0,50000);
+                Collision.checkBall2BlockCollision(this, blockStack);
+                Collision.checkBall2WallCollision(this, this.game);
+                Collision.checkBall2BallCollision(this, ballStack);
 
                 movementX();
                 movementY();
