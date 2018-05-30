@@ -128,9 +128,9 @@ public class Collision {
 //        }
 //    }
 
-    public static void checkBall2BallCollision(Ball b, Stack<Ball> ballStack){
-        for (Ball ball : ballStack){
-            if(b != ball){
+    public static void checkBall2BallCollision(Ball b, Stack<Ball> ballStack) {
+        for (Ball ball : ballStack) {
+            if (b != ball) {
                 Circle c = new Circle(b.getDx(), b.getDy(), b.getRadio());
 
                 if (c.intersects(ball.getDx(), ball.getDy(), ball.getX(), ball.getY())) {
@@ -168,7 +168,7 @@ public class Collision {
         }
     }
 
-    public static void checkBullet2BallCollision(Bullet i, Mapcanvas game) {
+    public synchronized static void checkBullet2BallCollision(Bullet i, Mapcanvas game) {
         Circle c = new Circle(i.getDx(), i.getDy(), i.getRadio());
 
         Stack<Ball> pila = game.getBalls();
@@ -179,7 +179,7 @@ public class Collision {
                     i.setIsCollided(true);
                     i.remove();
                     b.remove();
-                    
+
                 }
 
                 if (i.getDy() <= b.getDy() || i.getDy() >= b.getY() + b.getDy()) {
@@ -224,7 +224,7 @@ public class Collision {
                 if (b.getDy() <= cg.getDy() || b.getDy() >= cg.getY() + cg.getDy()) {
                     b.setspeedY((int) -b.getSpeedY());
                 }
-                cg.setLife(cg.getLife()-1);
+                cg.setLife(cg.getLife() - 1);
                 System.out.println(cg.getLife());
             }
         }
