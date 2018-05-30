@@ -18,9 +18,9 @@ import static pang2d.Utils.playSound;
 public class Mapcanvas extends Canvas implements Runnable {
     private Clock clk;
     private Image imgBgd, gun, gover, lifechar;
-    private URL urlimgBgd;
-    private boolean start = true;
-    private boolean over = true;
+    private boolean startI = false;
+    private boolean startG = true;
+    private boolean over = false;
     private boolean boclock = false;
     private static int widthC = 853, heightC = 651;
     private int titbl = 2;
@@ -59,14 +59,16 @@ public class Mapcanvas extends Canvas implements Runnable {
                 }
 
                 if (e.getKeyCode() == (KeyEvent.VK_K)) {
-                    Bullet b = new Bullet(player.getDx() + 45, player.getDy(), 0, 8, 10, 1,
-                            mapcanvas, bulletStack, blockStack, ballStack);
+                    if (startI & over) {
+                        Bullet b = new Bullet(player.getDx() + 45, player.getDy(), 0, 8, 10, 1,
+                                mapcanvas, bulletStack, new Stack<>());
 
-                    // If bullets on screen is more than 3, don't allow player to shoot more
-                    if (bulletStack.size() <= 2) {
-                        bulletStack.push(b);
-                        playSound("res/sounds/weapon.wav");
-                        b.start();
+                        // If bullets on screen is more than 3, don't allow player to shoot more
+                        if (bulletStack.size() <= 2) {
+                            bulletStack.push(b);
+                            b.start();
+                            playSound("res/sounds/weapon.wav");
+                        }
                     }
                 }
                 if (e.getKeyCode() == (KeyEvent.VK_ENTER)) {
@@ -83,13 +85,15 @@ public class Mapcanvas extends Canvas implements Runnable {
     }
 
     private void startGame() {
-        over = true;
-        imgBgd = new SpriteSheetHandler("res/imglevels/lv1.png").getImageWithoutCropping();
-        gun = new SpriteSheetHandler("res/pistola.png").getImageWithoutCropping();
-        lifechar = new SpriteSheetHandler("res/minichar.png").getImageWithoutCropping();
-        boclock = true;
-        clk = new Clock(121, true);
-        new Thread(clk).start();
+        if (startI && startG) {
+            imgBgd = new SpriteSheetHandler("res/imglevels/lv1.png").getImageWithoutCropping();
+            gun = new SpriteSheetHandler("res/pistola.png").getImageWithoutCropping();
+            lifechar = new SpriteSheetHandler("res/minichar.png").getImageWithoutCropping();
+            boclock = true;
+            clk = new Clock(121, true);
+            new Thread(clk).start();
+            startG = false;
+        }
     }
 
     private void initSprites() {

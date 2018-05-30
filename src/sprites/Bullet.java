@@ -98,8 +98,7 @@ public class Bullet extends Thread {
     }
 
     private void restDy() {
-        // TODO: Set physics to reduce bullet speed
-        this.dy -= this.speedY;
+        dy -= speedY;
     }
 
     public void setIsCollided(boolean isCollided) {
