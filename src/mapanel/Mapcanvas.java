@@ -1,5 +1,6 @@
 package mapanel;
 
+import controller.Server;
 import gfx.SpriteSheetHandler;
 import sprites.Ball;
 import sprites.Block;
@@ -25,15 +26,18 @@ public class Mapcanvas extends Canvas implements Runnable {
     private static int widthC = 853, heightC = 651;
     private int titbl = 2;
     private Player player;
-    private final Stack<Bullet> bulletStack;
-    private final Stack<Block> blockStack;
-    private final Stack<Ball> ballStack;
+    private Stack<Bullet> bulletStack;
+    private Stack<Block> blockStack;
+    private Stack<Ball> ballStack;
+    private Server server;
 
     public Mapcanvas() {
-        blockStack = new Stack<>();
-        bulletStack = new Stack<>();
-        ballStack = new Stack<>();
+        this.blockStack = new Stack<>();
+        this.bulletStack = new Stack<>();
+        this.ballStack = new Stack<>();
         initCanvas();
+        server = new Server();
+        server.start();
     }
 
     private void initCanvas() {

@@ -12,16 +12,21 @@ import java.util.logging.Logger;
 /**
  * Created by Antonio Moreno Valls
  **/
-public class Server implements Runnable {
+public class Server extends Thread {
 
     private static final int PORT = 1024;
+    private String message;
 
     private enum MoveTypes {
-        LEFT, RIGHT
+        DIRECTION_LEFT, DIRECTION_RIGHT
     }
 
     public Server() {
 
+    }
+
+    public String getMessage() {
+        return message;
     }
 
     @Override
@@ -62,12 +67,12 @@ public class Server implements Runnable {
                     String type = bReader.readLine();
 
                     for (MoveTypes moveTypes : MoveTypes.values()) {
-                        if (type.equals(MoveTypes.LEFT.name())) {
-                            // TODO: Move
+                        if (type.equals(MoveTypes.DIRECTION_LEFT.name())) {
+                            message = MoveTypes.DIRECTION_LEFT.name();
                         }
 
-                        if (type.equals(MoveTypes.RIGHT.name())) {
-                            // TODO: Move
+                        if (type.equals(MoveTypes.DIRECTION_RIGHT.name())) {
+                            message = MoveTypes.DIRECTION_RIGHT.name();
                         }
                     }
                 }
