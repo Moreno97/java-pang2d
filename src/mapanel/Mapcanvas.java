@@ -43,13 +43,26 @@ public class Mapcanvas extends Canvas implements Runnable {
         server.start();
     }
 
+
+    public void shootBullet(Player player) {
+        Bullet b = new Bullet(player.getDx() + 45, player.getDy(),
+                0, 8, 10, 1, this, bulletStack,
+                new Stack<>(), ballStack);
+
+        // If bullets on screen is more than 3 multiplied by each player, don't allow players to shoot more
+        if (bulletStack.size() <= playerStack.size() * 2) {
+            bulletStack.push(b);
+            b.start();
+            playSound("res/sounds/weapon.wav");
+        }
+    }
+
     private void initCanvas() {
         imgBgd = new SpriteSheetHandler("res/imglevels/PantIni.png").getImageWithoutCropping();
         setSize(widthC, heightC);
         initSprites();
         setFocusable(true);
 
-        final Mapcanvas mapcanvas = this;
         addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -69,16 +82,7 @@ public class Mapcanvas extends Canvas implements Runnable {
 
                 if (e.getKeyCode() == KeyEvent.VK_K) {
                     if (startI & over) {
-                        Bullet b = new Bullet(playerStack.get(0).getDx() + 45, playerStack.get(0).getDy(),
-                                0, 8, 10, 1, mapcanvas, bulletStack,
-                                new Stack<>(), ballStack);
-
-                        // If bullets on screen is more than 3 multiplied by each player, don't allow players to shoot more
-                        if (bulletStack.size() <= playerStack.size() * 2) {
-                            bulletStack.push(b);
-                            b.start();
-                            playSound("res/sounds/weapon.wav");
-                        }
+                        shootBullet(mainPlayer);
                     }
                 }
 
@@ -130,9 +134,10 @@ public class Mapcanvas extends Canvas implements Runnable {
     }
 
     private void initSprites() {
-        playerStack.add(new Player((getWidth() / 2) - 20, getBounds().height - 190, 100,
-                100, this));
-        new Thread(playerStack.get(0)).start();
+        mainPlayer = new Player((getWidth() / 2) - 20, getBounds().height - 190, 100,
+                100, this);
+        playerStack.add(mainPlayer);
+        new Thread(mainPlayer).start();
 
 //        for (int i = 0; i < 2; i++) {
 //            Block b = new Block(50 + (i * 300), 150, 80, 20, this);
@@ -200,7 +205,7 @@ public class Mapcanvas extends Canvas implements Runnable {
                 gr2D.drawString("TIME:" + String.valueOf(clk.getSegundos()), 30, 625);
                 gover = new SpriteSheetHandler("res/imglevels/gover.png").getImageWithoutCropping();
                 gr2D.drawImage(gover, 0, 0, this);
-                playerStack.lastElement().changeCharacter();
+                mainPlayer.changeCharacter();
                 soundGameOver();
             }
 

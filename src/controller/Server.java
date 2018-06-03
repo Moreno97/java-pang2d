@@ -4,6 +4,7 @@ import mapanel.Mapcanvas;
 import sprites.Player;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Inet4Address;
@@ -61,7 +62,7 @@ public class Server extends Thread {
     private class Handler implements Runnable {
 
         private final Socket socket;
-        private BufferedReader bReader;
+        private DataInputStream dataInputStream;
 
         public Handler(Socket socket) {
             this.socket = socket;
@@ -73,18 +74,21 @@ public class Server extends Thread {
             playerStack.add(new Player(20, height - 190, 100,
                     100, mapcanvas));
             try {
-                bReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                dataInputStream = new DataInputStream(socket.getInputStream());
+
                 while (socket.isConnected()) {
-                    String type = bReader.readLine();
+                    String type = dataInputStream.readUTF();
 
-                    for (MoveTypes moveTypes : MoveTypes.values()) {
-                        if (type.equals(MoveTypes.DIRECTION_LEFT.name())) {
-                            message = MoveTypes.DIRECTION_LEFT.name();
-                        }
+                    if (type.equals("DIRECTION_LEFT")) {
+                        playerStack.get(1).toLeft();
+                    }
 
-                        if (type.equals(MoveTypes.DIRECTION_RIGHT.name())) {
-                            message = MoveTypes.DIRECTION_RIGHT.name();
-                        }
+                    if (type.equals("DIRECTION_RIGHT")) {
+                        playerStack.get(1).toRight();
+                    }
+
+                    if (type.equals("SHOOT")) {
+                        mapcanvas.shootBullet(playerStack.get(1));
                     }
                 }
             } catch (IOException e) {
