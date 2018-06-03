@@ -14,7 +14,7 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.util.Stack;
 
-import static pang2d.Utils.playSound;
+import static pang2d.Utils.*;
 
 public class Mapcanvas extends Canvas implements Runnable {
     private Clock clk;
@@ -54,6 +54,10 @@ public class Mapcanvas extends Canvas implements Runnable {
             b.start();
             playSound("res/sounds/weapon.wav");
         }
+    }
+
+    public boolean isStartI() {
+        return startI;
     }
 
     private void initCanvas() {
