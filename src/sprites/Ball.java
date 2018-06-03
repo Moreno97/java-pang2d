@@ -16,21 +16,22 @@ import static mapanel.Collision.checkBall2WallCollision;
 
 public class Ball extends Thread {
 
-    private int x, y , dx, dy, radio, speedX, speedY, health;
+    private int x, y, dx, dy, radio, speedX, speedY, health;
     private Mapcanvas game;
     private ImageIcon img;
     private Stack<Block> blockStack;
-    private Stack<Ball> ballStack;
+    private final Stack<Ball> ballStack;
 
 
-    public Ball(int dx, int dy, int x, int y, int health, int speedX, int speedY, Mapcanvas game, Stack<Block> blockStack, Stack<Ball> ballStack) {
+    public Ball(int dx, int dy, int x, int y, int health, int speedX, int speedY, Mapcanvas game,
+                Stack<Block> blockStack, Stack<Ball> ballStack) {
         //super(dx, dy, x, y);
         this.x = x;
         this.y = y;
         this.dx = dx;
         this.dy = dy;
         this.health = health;
-        this.radio = x/3;
+        this.radio = x / 3;
         this.speedX = speedX;
         this.speedY = speedY;
         this.game = game;
@@ -39,27 +40,27 @@ public class Ball extends Thread {
         this.img = new ImageIcon(new SpriteSheetHandler("res/ballon.png").crop(0, 0, 39, 40));
     }
 
-    public int getX(){
+    public int getX() {
         return x;
     }
 
-    public void setX(int x){
-        this.x=x;
+    public void setX(int x) {
+        this.x = x;
     }
 
-    public int getY(){
+    public int getY() {
         return y;
     }
 
-    public void setY(int y){
-        this.y=y;
+    public void setY(int y) {
+        this.y = y;
     }
 
-    public int getHealth(){
+    public int getHealth() {
         return this.health;
     }
 
-    public void setHealth(int health){
+    public void setHealth(int health) {
         this.health = health;
     }
 
@@ -87,15 +88,15 @@ public class Ball extends Thread {
         return speedY;
     }
 
-    public void setSpeedX(int i){
+    public void setSpeedX(int i) {
         this.speedX = i;
     }
 
-    public void setspeedY(int i){
+    public void setspeedY(int i) {
         this.speedY = i;
     }
 
-    public float getRadio(){
+    public float getRadio() {
         return radio;
     }
 
@@ -103,7 +104,7 @@ public class Ball extends Thread {
         this.dx += this.speedX;
     }
 
-    private void movementY(){
+    private void movementY() {
         this.dy += this.speedY;
     }
 
@@ -114,7 +115,7 @@ public class Ball extends Thread {
     public void remove() {
         synchronized (ballStack) {
             if (!ballStack.isEmpty()) {
-                    ballStack.remove(this);
+                ballStack.remove(this);
 
             }
         }
