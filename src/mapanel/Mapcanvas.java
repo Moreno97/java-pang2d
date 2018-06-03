@@ -17,7 +17,7 @@ import static pang2d.Utils.playSound;
 
 public class Mapcanvas extends Canvas implements Runnable {
     private Clock clk;
-    private Image imgBgd, gun, gover, lifechar;
+    private Image imgBgd, gun, gover, lifechar, lifechar2;
     private boolean startI = false;
     private boolean startG = true;
     private boolean over = false;
@@ -99,6 +99,7 @@ public class Mapcanvas extends Canvas implements Runnable {
             imgBgd = new SpriteSheetHandler("res/imglevels/lv1.png").getImageWithoutCropping();
             gun = new SpriteSheetHandler("res/pistola.png").getImageWithoutCropping();
             lifechar = new SpriteSheetHandler("res/minichar.png").getImageWithoutCropping();
+            lifechar2 = new SpriteSheetHandler("res/minichar2.png").getImageWithoutCropping();
             boclock = true;
             clk = new Clock(121, true);
             new Thread(clk).start();
@@ -149,10 +150,12 @@ public class Mapcanvas extends Canvas implements Runnable {
         if (startI) {
             player.drawCharacter(gr2D);
             gr2D.drawImage(gun, (getWidth() / 2) - 27, getBounds().height - 55, this);
-            gr2D.drawImage(lifechar, getWidth() - 120, getBounds().height - 60, this);
+            gr2D.drawImage(lifechar, getWidth() - 120, getBounds().height - 75, this);
+            gr2D.drawImage(lifechar2, getWidth() - 120, getBounds().height - 40, this);
             gr2D.setColor(Color.WHITE);
-            gr2D.setFont(new Font("Times New Roman", Font.BOLD, 30));
-            gr2D.drawString("X 3", getWidth() - 78, getBounds().height - 28);
+            gr2D.setFont(new Font("Times New Roman", Font.BOLD, 20));
+            gr2D.drawString("X 3", getWidth() - 78, getBounds().height - 15);
+            gr2D.drawString("X 3", getWidth() - 78, getBounds().height - 50);
             gr2D.setFont(new Font("Times New Roman", Font.BOLD, 20));
             gr2D.drawString("SCORE", getWidth() - 350, getBounds().height - 55);
         }
