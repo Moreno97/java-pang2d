@@ -91,7 +91,7 @@ public class Mapcanvas extends Canvas implements Runnable {
 
     private void restart() {
         startGame();
-        player = new Player((getWidth() / 2) - 20, getBounds().height - 190, 100, 100, this);
+        player = new Player((getWidth() / 2) - 20, getBounds().height - 190, 30, 30, this);
     }
 
     private void startGame() {
@@ -116,11 +116,11 @@ public class Mapcanvas extends Canvas implements Runnable {
             b.start();
         }
 
-        for (int i = 0; i < 2; i++) {
-            Block b = new Block(50 + (i * 300), 150, 80, 20, this);
-            blockStack.push(b);
-            b.start();
-        }
+      //  for (int i = 0; i < 2; i++) {
+       //     Block b = new Block(50 + (i * 300), 150, 80, 20, this);
+        //    blockStack.push(b);
+       //     b.start();
+       // }
 
     }
 
@@ -162,9 +162,9 @@ public class Mapcanvas extends Canvas implements Runnable {
                 }
             }
 
-            for (Block block : blockStack) {
-                block.paint(gr2D);
-            }
+           // for (Block block : blockStack) {
+          //      block.paint(gr2D);
+            //}
 
         }
 
@@ -219,14 +219,12 @@ public class Mapcanvas extends Canvas implements Runnable {
             }
             while (true) {
                 paint();
-               // Collision.checkBall2PlayerCollision(ballStack, player);
                 Thread.sleep(10);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 
     public Stack<Ball> getBalls() {
         return ballStack;

@@ -128,16 +128,18 @@ public class Collision {
 //        }
 //    }
 
-    public static void checkBall2BallCollision(Ball b, Stack<Ball> ballStack) {
+    public synchronized static void checkBall2BallCollision(Ball b, Stack<Ball> ballStack) {
         for (Ball ball : ballStack) {
             if (b != ball) {
                 Circle c = new Circle(b.getDx(), b.getDy(), b.getRadio());
+                Circle d = new Circle(ball.getDx(), ball.getDy(), ball.getRadio());
 
-                if (c.intersects(ball.getDx(), ball.getDy(), ball.getX(), ball.getY())) {
+                if (c.intersects(d.getBoundsInLocal())){
                     if (b.getDx() <= ball.getDx() || b.getDx() >= ball.getX() + ball.getDx()) {
                         b.setSpeedX((int) -b.getSpeedX());
                         ball.setSpeedX((int) -ball.getSpeedX());
                     }
+
                     if (b.getDy() <= ball.getDy() || b.getDy() >= ball.getY() + ball.getDy()) {
                         b.setspeedY((int) -b.getSpeedY());
                         ball.setspeedY((int) -ball.getSpeedY());
@@ -145,7 +147,6 @@ public class Collision {
                 }
 
             }
-
 
         }
 
@@ -211,9 +212,10 @@ public class Collision {
         }
     }
 
-    public static void checkBall2PlayerCollision(Stack<Ball> ballStack, Mapcanvas game) {
+    public synchronized static void checkBall2PlayerCollision(Stack<Ball> ballStack, Mapcanvas game) {
 
         Player cg = game.getPlayer();
+
         for (Ball b : ballStack) {
 
             Circle c = new Circle(b.getDx(), b.getDy(), b.getRadio());
@@ -221,12 +223,24 @@ public class Collision {
             if (c.intersects(cg.getDx(), cg.getDy(), cg.getX(), cg.getY())) {
                 if (b.getDx() <= cg.getDx() || b.getDx() >= cg.getX() + cg.getDx()) {
                     b.setSpeedX((int) -b.getSpeedX());
+                    cg.setChecked(true);
+                } else {
+                    cg.setChecked(false);
                 }
+
                 if (b.getDy() <= cg.getDy() || b.getDy() >= cg.getY() + cg.getDy()) {
                     b.setspeedY((int) -b.getSpeedY());
+                    cg.setChecked(true);
+                } else {
+                    cg.setChecked(false);
                 }
-                cg.setLife(cg.getLife() - 1);
-                System.out.println(cg.getLife());
+
+                if(cg.isChecked()!=cg.isCollided()){
+                    cg.setLife(cg.getLife() - 1);
+                    System.out.println(cg.getLife());
+                    cg.setCollided(cg.isChecked());
+                }
+
             }
         }
 
@@ -242,14 +256,11 @@ public class Collision {
         }
     }
 
-    public static void checkBall2BlockCollision(Ball b, Stack<Block> blockStack) {
+    public synchronized static void checkBall2BlockCollision(Ball b, Stack<Block> blockStack) {
         Circle c = new Circle(b.getDx(), b.getDy(), b.getRadio());
 
         for (Block m : blockStack) {
             if (c.intersects(m.getDx(), m.getDy(), m.getWidth(), m.getHeight())) {
-
-                //b.setDx((int)(b.getDx() - b.getSpeedX()) / 20);
-                //b.setDy((int)(b.getDy() - b.getSpeedY()) / 20);
 
                 if (b.getDx() <= m.getDx() || b.getDx() >= m.getWidth() + m.getDx()) {
                     b.setSpeedX((int) -b.getSpeedX());

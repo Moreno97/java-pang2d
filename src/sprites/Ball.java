@@ -7,6 +7,8 @@ import mapanel.Mapcanvas;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Stack;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -125,11 +127,10 @@ public class Ball extends Thread {
         try {
             while (true) {
                 //Collision
-                Collision.checkBall2BlockCollision(this, blockStack);
+                Collision.checkBall2BlockCollision(this, this.blockStack);
                 Collision.checkBall2WallCollision(this, this.game);
-                Collision.checkBall2BallCollision(this, ballStack);
-                Collision.checkBall2PlayerCollision(ballStack, game);
-
+                Collision.checkBall2BallCollision(this, this.ballStack);
+                Collision.checkBall2PlayerCollision(this.ballStack, this.game);
 
                 movementX();
                 movementY();

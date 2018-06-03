@@ -19,6 +19,9 @@ public class Player extends Sprite {
     private Mapcanvas game;
     private ImageIcon character;
 
+    private boolean collided = false;
+    private boolean checkOnce = false;
+
     public Player(int dx, int dy, int x, int y, Mapcanvas game) {
         super(dx, dy, x, y);
         this.game = game;
@@ -68,6 +71,22 @@ public class Player extends Sprite {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public boolean isCollided(){
+        return this.collided;
+    }
+
+    public void setCollided(boolean c){
+        this.collided=c;
+    }
+
+    public boolean isChecked(){
+        return this.checkOnce;
+    }
+
+    public void setChecked(boolean c){
+        this.checkOnce=c;
     }
 
     public void drawCharacter(Graphics2D gr2D) {
