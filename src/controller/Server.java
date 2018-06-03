@@ -1,12 +1,12 @@
 package controller;
 
+import gfx.SpriteSheetHandler;
 import mapanel.Mapcanvas;
 import sprites.Player;
 
-import java.io.BufferedReader;
+import javax.swing.*;
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.Inet4Address;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -71,8 +71,8 @@ public class Server extends Thread {
         @Override
         public void run() {
             System.out.println("\t" + "Client: " + socket.getInetAddress().getHostAddress());
-            playerStack.add(new Player(20, height - 190, 100,
-                    100, mapcanvas));
+            playerStack.add(new Player(20, height - 160, 50,
+                    50, mapcanvas, 2, new ImageIcon(new SpriteSheetHandler("res/pj2.png").getImageWithoutCropping())));
             try {
                 dataInputStream = new DataInputStream(socket.getInputStream());
 

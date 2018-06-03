@@ -2,17 +2,16 @@ package mapanel;
 
 import controller.Server;
 import gfx.SpriteSheetHandler;
-import pang2d.Space;
 import sprites.Ball;
 import sprites.Block;
 import sprites.Bullet;
 import sprites.Player;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
-import java.net.URL;
 import java.util.Stack;
 
 import static pang2d.Utils.playSound;
@@ -110,8 +109,8 @@ public class Mapcanvas extends Canvas implements Runnable {
 
     private void restart() {
         startGame();
-        playerStack.add(new Player((getWidth() / 2) - 20, getBounds().height - 190, 100,
-                100, this));
+        mainPlayer = new Player((getWidth() / 2) - 20, getBounds().height - 190, 100,
+                100, this, 1, new ImageIcon(new SpriteSheetHandler("res/sprites.png").crop(3, 1, 47, 49)));
     }
 
     private void startGame() {
@@ -136,7 +135,7 @@ public class Mapcanvas extends Canvas implements Runnable {
 
     private void initSprites() {
         mainPlayer = new Player((getWidth() / 2) - 20, getBounds().height - 190, 100,
-                100, this);
+                100, this, 1, new ImageIcon(new SpriteSheetHandler("res/sprites.png").crop(3, 1, 47, 49)));
         playerStack.add(mainPlayer);
         new Thread(mainPlayer).start();
 
