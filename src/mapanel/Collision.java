@@ -134,15 +134,15 @@ public class Collision {
                 Circle c = new Circle(b.getDx(), b.getDy(), b.getRadio());
                 Circle d = new Circle(ball.getDx(), ball.getDy(), ball.getRadio());
 
-                if (c.intersects(d.getBoundsInLocal())){
+                if (c.intersects(d.getBoundsInLocal())) {
                     if (b.getDx() <= ball.getDx() || b.getDx() >= ball.getX() + ball.getDx()) {
                         b.setSpeedX((int) -b.getSpeedX());
                         ball.setSpeedX((int) -ball.getSpeedX());
                     }
 
                     if (b.getDy() <= ball.getDy() || b.getDy() >= ball.getY() + ball.getDy()) {
-                        b.setspeedY((int) -b.getSpeedY());
-                        ball.setspeedY((int) -ball.getSpeedY());
+                        b.setSpeedY((int) -b.getSpeedY());
+                        ball.setSpeedY((int) -ball.getSpeedY());
                     }
                 }
 
@@ -202,8 +202,8 @@ public class Collision {
     }
 
     public static void checkBall2WallCollision(Ball i, Mapcanvas game) {
-        if (i.getDy() + i.getRadio() >= (game.getHeight() - 10) || i.getDy() + i.getRadio() < 20) {
-            i.setspeedY((int) -i.getSpeedY());
+        if (i.getDy() + i.getRadio() >= (game.getHeight() - 140) || i.getDy() + i.getRadio() < 20) {
+            i.setSpeedY((int) -i.getSpeedY());
         }
 
         if (i.getDx() + i.getRadio() >= (game.getWidth() - 10) || i.getDx() + i.getRadio() < 20) {
@@ -212,38 +212,49 @@ public class Collision {
         }
     }
 
-    public synchronized static void checkBall2PlayerCollision(Stack<Ball> ballStack, Mapcanvas game) {
+//    public synchronized static void checkBall2PlayerCollision(Stack<Ball> ballStack, Player cg) {
+//
+//        for (Ball b : ballStack) {
+//
+//            Circle c = new Circle(b.getDx(), b.getDy(), b.getRadio());
+//
+//            if (c.intersects(cg.getDx(), cg.getDy(), cg.getX(), cg.getY())) {
+//                if (b.getDx() <= cg.getDx() || b.getDx() >= cg.getX() + cg.getDx()) {
+//                    b.setSpeedX((int) -b.getSpeedX());
+//                    cg.setChecked(true);
+//                } else {
+//                    cg.setChecked(false);
+//                }
+//
+//                if (b.getDy() <= cg.getDy() || b.getDy() >= cg.getY() + cg.getDy()) {
+//                    b.setspeedY((int) -b.getSpeedY());
+//                    cg.setChecked(true);
+//                } else {
+//                    cg.setChecked(false);
+//                }
+//
+//                if (cg.isChecked() != cg.isCollided()) {
+//                    cg.setLife(cg.getLife() - 1);
+//                    cg.setCollided(cg.isChecked());
+//
+//                }
+//
+//            }
+//        }
+//    }
 
-        Player cg = game.getPlayer();
+    public static synchronized void checkBall2PlayerCollision(Ball b, Stack<Player> playerStack) {
+        Circle c = new Circle(b.getDx(), b.getDy(), b.getRadio());
 
-        for (Ball b : ballStack) {
-
-            Circle c = new Circle(b.getDx(), b.getDy(), b.getRadio());
-
-            if (c.intersects(cg.getDx(), cg.getDy(), cg.getX(), cg.getY())) {
-                if (b.getDx() <= cg.getDx() || b.getDx() >= cg.getX() + cg.getDx()) {
-                    b.setSpeedX((int) -b.getSpeedX());
-                    cg.setChecked(true);
-                } else {
-                    cg.setChecked(false);
-                }
-
-                if (b.getDy() <= cg.getDy() || b.getDy() >= cg.getY() + cg.getDy()) {
-                    b.setspeedY((int) -b.getSpeedY());
-                    cg.setChecked(true);
-                } else {
-                    cg.setChecked(false);
-                }
-
-                if(cg.isChecked()!=cg.isCollided()){
-                    cg.setLife(cg.getLife() - 1);
-                    System.out.println(cg.getLife());
-                    cg.setCollided(cg.isChecked());
-                }
-
+        playerStack.stream().filter((obs) -> (c.intersects(obs.getDx(), obs.getDy(), obs.getX(), obs.getY()))).map((obs) -> {
+            if (b.getDx() <= obs.getDx() || b.getDx() >= obs.getX() + obs.getY()) {
+                b.setSpeedX((int) -b.getSpeedX());
+                obs.setLife(obs.getLife() - 1);
             }
-        }
-
+            return obs;
+        }).filter((obs) -> (b.getDy() <= obs.getDy() || b.getDy() >= obs.getX() + obs.getDy())).forEachOrdered((_item) -> {
+            b.setSpeedY((int) -b.getSpeedY());
+        });
     }
 
     public static void checkPlayer2WallCollision(Player cg, Mapcanvas game) {
@@ -266,7 +277,7 @@ public class Collision {
                     b.setSpeedX((int) -b.getSpeedX());
                 }
                 if (b.getDy() <= m.getDy() || b.getDy() >= m.getWidth() + m.getDy()) {
-                    b.setspeedY((int) -b.getSpeedY());
+                    b.setSpeedY((int) -b.getSpeedY());
                 }
 
             }

@@ -1,27 +1,40 @@
 package controller;
 
-import java.io.BufferedReader;
+import mapanel.Mapcanvas;
+import sprites.Player;
+
+import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.Inet4Address;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * Created by Antonio Moreno Valls
  **/
-public class Server implements Runnable {
+public class Server extends Thread {
 
     private static final int PORT = 1024;
+    private Stack<Player> playerStack;
+    private String message;
+    private int height;
+    private Mapcanvas mapcanvas;
 
     private enum MoveTypes {
-        LEFT, RIGHT
+        DIRECTION_LEFT, DIRECTION_RIGHT
     }
 
-    public Server() {
+    public Server(Stack<Player> playerStack, int height, Mapcanvas mapcanvas) {
+        this.playerStack = playerStack;
+        this.height = height;
+        this.mapcanvas = mapcanvas;
+    }
 
+    public String getMessage() {
+        return message;
     }
 
     @Override
@@ -47,7 +60,7 @@ public class Server implements Runnable {
     private class Handler implements Runnable {
 
         private final Socket socket;
-        private BufferedReader bReader;
+        private DataInputStream dataInputStream;
 
         public Handler(Socket socket) {
             this.socket = socket;
@@ -56,19 +69,24 @@ public class Server implements Runnable {
         @Override
         public void run() {
             System.out.println("\t" + "Client: " + socket.getInetAddress().getHostAddress());
+            playerStack.add(new Player(20, height - 190, 100,
+                    100, mapcanvas));
             try {
-                bReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                dataInputStream = new DataInputStream(socket.getInputStream());
+
                 while (socket.isConnected()) {
-                    String type = bReader.readLine();
+                    String type = dataInputStream.readUTF();
 
-                    for (MoveTypes moveTypes : MoveTypes.values()) {
-                        if (type.equals(MoveTypes.LEFT.name())) {
-                            // TODO: Move
-                        }
+                    if (type.equals("DIRECTION_LEFT")) {
+                        playerStack.get(1).toLeft();
+                    }
 
-                        if (type.equals(MoveTypes.RIGHT.name())) {
-                            // TODO: Move
-                        }
+                    if (type.equals("DIRECTION_RIGHT")) {
+                        playerStack.get(1).toRight();
+                    }
+
+                    if (type.equals("SHOOT")) {
+                        mapcanvas.shootBullet(playerStack.get(1));
                     }
                 }
             } catch (IOException e) {

@@ -11,7 +11,7 @@ public class Space extends JFrame {
 
     public Space() {
         Container panel;
-        setBounds(0, 0, 850, 570);
+        setBounds(0, 0, 850, 676);
         setTitle("Pang Vrs. DAM");
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
