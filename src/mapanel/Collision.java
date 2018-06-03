@@ -211,8 +211,9 @@ public class Collision {
         }
     }
 
-    public static void checkBall2PlayerCollision(Stack<Ball> ballStack, Player cg) {
+    public static void checkBall2PlayerCollision(Stack<Ball> ballStack, Mapcanvas game) {
 
+        Player cg = game.getPlayer();
         for (Ball b : ballStack) {
 
             Circle c = new Circle(b.getDx(), b.getDy(), b.getRadio());

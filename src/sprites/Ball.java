@@ -128,6 +128,8 @@ public class Ball extends Thread {
                 Collision.checkBall2BlockCollision(this, blockStack);
                 Collision.checkBall2WallCollision(this, this.game);
                 Collision.checkBall2BallCollision(this, ballStack);
+                Collision.checkBall2PlayerCollision(ballStack, game);
+
 
                 movementX();
                 movementY();

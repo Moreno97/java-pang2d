@@ -219,7 +219,7 @@ public class Mapcanvas extends Canvas implements Runnable {
             }
             while (true) {
                 paint();
-                Collision.checkBall2PlayerCollision(ballStack, player);
+               // Collision.checkBall2PlayerCollision(ballStack, player);
                 Thread.sleep(10);
             }
         } catch (Exception e) {
@@ -238,6 +238,10 @@ public class Mapcanvas extends Canvas implements Runnable {
 
     public Stack<Block> getBlocks() {
         return blockStack;
+    }
+
+    public Player getPlayer(){
+        return player;
     }
 
 }
