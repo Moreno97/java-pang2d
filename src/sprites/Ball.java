@@ -10,10 +10,6 @@ import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static mapanel.Collision.checkBall2BlockCollision;
-import static mapanel.Collision.checkBall2PlayerCollision;
-import static mapanel.Collision.checkBall2WallCollision;
-
 public class Ball extends Thread {
 
     private int x, y, dx, dy, radio, speedX, speedY, health;

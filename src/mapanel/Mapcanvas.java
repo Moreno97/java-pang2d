@@ -2,17 +2,16 @@ package mapanel;
 
 import controller.Server;
 import gfx.SpriteSheetHandler;
-import pang2d.Space;
 import sprites.Ball;
 import sprites.Block;
 import sprites.Bullet;
 import sprites.Player;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
-import java.net.URL;
 import java.util.Stack;
 
 import static pang2d.Utils.playSound;
@@ -110,8 +109,8 @@ public class Mapcanvas extends Canvas implements Runnable {
 
     private void restart() {
         startGame();
-        playerStack.add(new Player((getWidth() / 2) - 20, getBounds().height - 190, 100,
-                100, this));
+        mainPlayer = new Player((getWidth() / 2) - 20, getBounds().height - 190, 100,
+                100, this, 1, new ImageIcon(new SpriteSheetHandler("res/sprites.png").crop(3, 1, 47, 49)));
     }
 
     private void startGame() {
@@ -136,7 +135,7 @@ public class Mapcanvas extends Canvas implements Runnable {
 
     private void initSprites() {
         mainPlayer = new Player((getWidth() / 2) - 20, getBounds().height - 190, 100,
-                100, this);
+                100, this, 1, new ImageIcon(new SpriteSheetHandler("res/sprites.png").crop(3, 1, 47, 49)));
         playerStack.add(mainPlayer);
         new Thread(mainPlayer).start();
 
@@ -176,11 +175,14 @@ public class Mapcanvas extends Canvas implements Runnable {
 
             gr2D.drawImage(gun, (getWidth() / 2) - 27, getBounds().height - 55, this);
             gr2D.drawImage(lifechar, getWidth() - 120, getBounds().height - 75, this);
-            gr2D.drawImage(lifechar2, getWidth() - 120, getBounds().height - 40, this);
             gr2D.setColor(Color.WHITE);
             gr2D.setFont(new Font("Times New Roman", Font.BOLD, 20));
-            gr2D.drawString("X 3", getWidth() - 78, getBounds().height - 15);
-            gr2D.drawString("X 3", getWidth() - 78, getBounds().height - 50);
+            gr2D.drawString("X "+mainPlayer.getLife(), getWidth() - 78, getBounds().height - 50);
+            if (playerStack.size() > 1) {
+                gr2D.drawImage(lifechar2, getWidth() - 120, getBounds().height - 40, this);
+                gr2D.drawString("X 3", getWidth() - 78, getBounds().height - 15);
+            }
+
             gr2D.setFont(new Font("Times New Roman", Font.BOLD, 20));
             gr2D.drawString("SCORE", getWidth() - 350, getBounds().height - 55);
         }

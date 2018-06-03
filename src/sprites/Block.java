@@ -3,7 +3,6 @@ package sprites;
 import mapanel.Mapcanvas;
 
 import java.awt.*;
-import java.util.Stack;
 
 /**
  * Created by Antonio Moreno Valls
