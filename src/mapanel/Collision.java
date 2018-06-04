@@ -223,7 +223,6 @@ public class Collision {
             if (b.getDx() <= obs.getDx() || b.getDx() >= obs.getX() + obs.getY()) {
                 b.setSpeedX((int) -b.getSpeedX());
                 obs.setLife(obs.getLife() - 1);
-                System.out.println(obs.getLife());
             }
             return obs;
         }).filter((obs) -> (b.getDy() <= obs.getDy() || b.getDy() >= obs.getX() + obs.getDy())).forEachOrdered((_item) -> {
@@ -244,18 +243,14 @@ public class Collision {
     public synchronized static void checkBall2BlockCollision(Ball b, Stack<Block> blockStack) {
         Circle c = new Circle(b.getDx(), b.getDy(), b.getRadio());
 
-        for (Block m : blockStack) {
-            if (c.intersects(m.getDx(), m.getDy(), m.getWidth(), m.getHeight())) {
-
-                if (b.getDx() <= m.getDx() || b.getDx() >= m.getWidth() + m.getDx()) {
-                    b.setSpeedX((int) -b.getSpeedX());
-                }
-                if (b.getDy() <= m.getDy() || b.getDy() >= m.getWidth() + m.getDy()) {
-                    b.setSpeedY((int) -b.getSpeedY());
-                }
-
+        blockStack.stream().filter((obs) -> (c.intersects(obs.getDx(), obs.getDy(), obs.getWidth(), obs.getHeight()))).map((obs) -> {
+            if (b.getDx() <= obs.getDx() || b.getDx() >= obs.getWidth() + obs.getHeight()) {
+                b.setSpeedX((int) -b.getSpeedX());
             }
-        }
+            return obs;
+        }).filter((obs) -> (b.getDy() <= obs.getDy() || b.getDy() >= obs.getWidth() + obs.getDy())).forEachOrdered((_item) -> {
+            b.setSpeedY((int) -b.getSpeedY());
+        });
 
 
     }

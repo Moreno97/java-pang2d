@@ -139,11 +139,11 @@ public class Mapcanvas extends Canvas implements Runnable {
         playerStack.add(mainPlayer);
         new Thread(mainPlayer).start();
 
-//        for (int i = 0; i < 2; i++) {
-//            Block b = new Block(50 + (i * 300), 150, 80, 20, this);
-//            blockStack.push(b);
-//            b.start();
-//        }
+        for (int i = 0; i < 2; i++) {
+            Block b = new Block(50 + (i * 300), 250, 80, 20, this);
+            blockStack.push(b);
+            b.start();
+        }
 
     }
 
@@ -188,9 +188,9 @@ public class Mapcanvas extends Canvas implements Runnable {
                 }
             }
 
-            // for (Block block : blockStack) {
-            //      block.paint(gr2D);
-            //}
+             for (Block block : blockStack) {
+                  block.paint(gr2D);
+            }
 
         }
 
