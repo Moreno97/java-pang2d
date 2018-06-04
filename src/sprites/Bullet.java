@@ -108,14 +108,13 @@ public class Bullet extends Thread {
     @Override
     public void run() {
         while (true) {
-            Collision.checkBullet2WallCollision(this, this.mapcanvas);
-            Collision.checkBullet2BlockCollision(this, this.blockStack);
-            Collision.checkBullet2BallCollision(this, this.mapcanvas);
-            restDy();
             try {
+                Collision.checkBullet2WallCollision(this, this.mapcanvas);
+                Collision.checkBullet2BlockCollision(this, this.blockStack);
+                Collision.checkBullet2BallCollision(this, this.mapcanvas);
+                restDy();
                 Thread.sleep(20);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Bullet.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
             }
         }
     }

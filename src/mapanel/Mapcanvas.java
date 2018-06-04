@@ -123,7 +123,7 @@ public class Mapcanvas extends Canvas implements Runnable {
             new Thread(clk).start();
             startG = false;
 
-            for (int i = 0; i < 6; i++) {
+            for (int i = 0; i < 4; i++) {
                 Ball b = new Ball((int) (Math.random() * 300 * i + 10), 35, 60, 60, 3,
                         2, 2, this);
                 ballStack.push(b);
@@ -252,7 +252,7 @@ public class Mapcanvas extends Canvas implements Runnable {
         }
     }
 
-    public Stack<Ball> getBalls() {
+    public synchronized Stack<Ball> getBalls() {
         return ballStack;
     }
 
