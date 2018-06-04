@@ -26,7 +26,7 @@ public class Utils {
         }).start();
     }
 
-    //Musica Inicio
+    //Musica Inicio de juego
     /*public static synchronized void playMusicLevel(String pathname) {
         new Thread(() -> {
             try {
