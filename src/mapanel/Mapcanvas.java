@@ -1,5 +1,6 @@
 package mapanel;
 
+import controller.InputHandler;
 import controller.Server;
 import gfx.SpriteSheetHandler;
 import sprites.Ball;
@@ -12,6 +13,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
+import java.util.HashSet;
 import java.util.Stack;
 
 import static pang2d.Utils.playSound;
@@ -31,12 +33,14 @@ public class Mapcanvas extends Canvas implements Runnable {
     private final Stack<Ball> ballStack;
     private Server server;
     private Player mainPlayer;
+    private InputHandler inputHandler;
 
     public Mapcanvas() {
         this.blockStack = new Stack<>();
         this.bulletStack = new Stack<>();
         this.ballStack = new Stack<>();
         this.playerStack = new Stack<>();
+        this.inputHandler = new InputHandler();
         initCanvas();
         server = new Server(playerStack, getBounds().height, this);
         server.start();
@@ -55,16 +59,15 @@ public class Mapcanvas extends Canvas implements Runnable {
         }
     }
 
-    public boolean isStartI() {
-        return startI;
-    }
-
     private void initCanvas() {
         imgBgd = new SpriteSheetHandler("res/imglevels/PantIni.png").getImageWithoutCropping();
         setSize(widthC, heightC);
         initSprites();
         setFocusable(true);
+        initKeyListener();
+    }
 
+    private void initKeyListener() {
         addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -107,11 +110,12 @@ public class Mapcanvas extends Canvas implements Runnable {
     }
 
     private void restart() {
-        startGame();
         playerStack.clear(); // Remove all elements from the list first
+        ballStack.clear();
         mainPlayer = new Player((getWidth() / 2) - 20, getBounds().height - 190, 100,
                 100, this, 1, new ImageIcon(new SpriteSheetHandler("res/sprites.png").crop(3, 1, 47, 49)));
         playerStack.add(mainPlayer);
+        startGame();
     }
 
     private void startGame() {
@@ -125,7 +129,7 @@ public class Mapcanvas extends Canvas implements Runnable {
             new Thread(clk).start();
             startG = false;
 
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < 2; i++) {
                 Ball b = new Ball((int) (Math.random() * 300 * i + 10), 35, 60, 60, 3,
                         2, 2, this);
                 ballStack.push(b);
@@ -217,12 +221,14 @@ public class Mapcanvas extends Canvas implements Runnable {
                 gr2D.drawImage(gover, 0, 0, this);
                 mainPlayer.changeCharacter();
                 soundGameOver();
-
             } else if (clk.getSegundos() > 0) {
                 over = true;
                 gr2D.setColor(Color.WHITE);
                 gr2D.setFont(new Font("Times New Roman", Font.BOLD, 40));
                 gr2D.drawString("TIME:" + String.valueOf(clk.getSegundos()), 30, 625);
+            } else if (ballStack.size() == 0) {
+                // TODO: Show win screen
+                gover = new SpriteSheetHandler("res/imglevels/gover.png").getImageWithoutCropping();
             }
         }
         bs.show();

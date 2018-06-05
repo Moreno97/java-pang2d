@@ -109,7 +109,6 @@ public class Ball extends Thread {
         synchronized (ballStack) {
             if (!ballStack.isEmpty()) {
                 ballStack.remove(this);
-
             }
         }
     }
