@@ -21,11 +21,11 @@ public class Mapcanvas extends Canvas implements Runnable {
     private Image imgBgd, gun, gover, stgclear, lifechar, lifechar2;
     private boolean startI = false;
     private boolean startG = true;
-    private boolean over = false, clear =false;
+    private boolean over = false, clear = false;
     private boolean boclock = false;
     private static int widthC = 853, heightC = 651;
     private int titbl = 2;
-    private int scr= 0;
+    private int scr = 0;
     private final Stack<Player> playerStack;
     private final Stack<Bullet> bulletStack;
     private Stack<Block> blockStack;
@@ -187,11 +187,11 @@ public class Mapcanvas extends Canvas implements Runnable {
 
             if (playerStack.size() > 1) {
                 gr2D.drawImage(lifechar2, getWidth() - 120, getBounds().height - 40, this);
-                gr2D.drawString("X "+playerStack.peek().getLife(), getWidth() - 78, getBounds().height - 15);
+                gr2D.drawString("X " + playerStack.peek().getLife(), getWidth() - 78, getBounds().height - 15);
             }
             gr2D.setFont(new Font("Times New Roman", Font.BOLD, 20));
             gr2D.drawString("SCORE", getWidth() - 350, getBounds().height - 55);
-            gr2D.drawString(""+scr, getWidth() - 350, getBounds().height - 35);
+            gr2D.drawString("" + scr, getWidth() - 350, getBounds().height - 35);
 
             synchronized (ballStack) {
                 for (Ball b : ballStack) {
@@ -227,17 +227,17 @@ public class Mapcanvas extends Canvas implements Runnable {
                 gr2D.drawString("TIME:" + String.valueOf(clk.getSegundos()), 30, 625);
             }
         }
-        if(startI && ballStack.empty()){
+        if (startI && ballStack.empty()) {
             stgclear = new SpriteSheetHandler("res/imglevels/Stageclear.png").getImageWithoutCropping();
             gr2D.drawImage(stgclear, 0, 0, this);
             mainPlayer.changeCharacter(false);
             clk.iniStop();
-            scr=+clk.getSegundos()*150;
+            scr = +clk.getSegundos() * 150;
             gr2D.setFont(new Font("Times New Roman", Font.BOLD, 20));
-            gr2D.drawString(""+scr, getWidth() - 350, getBounds().height - 355);
+            gr2D.drawString("" + scr, getWidth() - 350, getBounds().height - 355);
             soundStageClear();
-        }else{
-            clear=true;
+        } else {
+            clear = true;
             stgclear = null;
         }
         gr2D.drawImage(stgclear, 0, 0, this);
@@ -258,6 +258,7 @@ public class Mapcanvas extends Canvas implements Runnable {
             playSound("res/levels/sounds/stageClear.wav");
         }
     }
+
     @Override
     public void run() {
         this.createBufferStrategy(2);

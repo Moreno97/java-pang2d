@@ -32,7 +32,7 @@ public class Clock implements Runnable {
         while (true) {
             try {
                 if (stp == false) {
-                    if(segundos != 0){
+                    if (segundos != 0) {
                         segundos--;
                     }
                 }
