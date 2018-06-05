@@ -31,12 +31,12 @@ public class Clock implements Runnable {
     public void run() {
         while (true) {
             try {
-                if (stp == false || segundos != 0) {
-                    segundos--;
-                    //lblTime.setText(String.valueOf(segundos));
-                    //System.out.println(String.valueOf(segundos));
-                    Thread.sleep(1000);
+                if (stp == false) {
+                    if(segundos != 0){
+                        segundos--;
+                    }
                 }
+                Thread.sleep(1000);
             } catch (Exception e) {
                 e.getMessage();
             }

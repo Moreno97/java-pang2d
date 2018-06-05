@@ -18,13 +18,14 @@ import static pang2d.Utils.playSound;
 
 public class Mapcanvas extends Canvas implements Runnable {
     private Clock clk;
-    private Image imgBgd, gun, gover, lifechar, lifechar2;
+    private Image imgBgd, gun, gover, stgclear, lifechar, lifechar2;
     private boolean startI = false;
     private boolean startG = true;
-    private boolean over = false;
+    private boolean over = false, clear =false;
     private boolean boclock = false;
     private static int widthC = 853, heightC = 651;
     private int titbl = 2;
+    private int scr= 0;
     private final Stack<Player> playerStack;
     private final Stack<Bullet> bulletStack;
     private Stack<Block> blockStack;
@@ -121,7 +122,7 @@ public class Mapcanvas extends Canvas implements Runnable {
             lifechar = new SpriteSheetHandler("res/minichar.png").getImageWithoutCropping();
             lifechar2 = new SpriteSheetHandler("res/minichar2.png").getImageWithoutCropping();
             boclock = true;
-            clk = new Clock(30, true);
+            clk = new Clock(101, true);
             new Thread(clk).start();
             startG = false;
 
@@ -181,15 +182,16 @@ public class Mapcanvas extends Canvas implements Runnable {
             gr2D.drawImage(lifechar, getWidth() - 120, getBounds().height - 75, this);
             gr2D.setColor(Color.WHITE);
 
-            gr2D.setFont(new Font("Times New Roman", Font.BOLD, 30));
-            gr2D.drawString("X " + mainPlayer.getLife(), getWidth() - 78, getBounds().height - 28);
+            gr2D.setFont(new Font("Times New Roman", Font.BOLD, 20));
+            gr2D.drawString("X " + mainPlayer.getLife(), getWidth() - 78, getBounds().height - 47);
 
             if (playerStack.size() > 1) {
                 gr2D.drawImage(lifechar2, getWidth() - 120, getBounds().height - 40, this);
-                gr2D.drawString("X 3", getWidth() - 78, getBounds().height - 15);
+                gr2D.drawString("X "+playerStack.peek().getLife(), getWidth() - 78, getBounds().height - 15);
             }
             gr2D.setFont(new Font("Times New Roman", Font.BOLD, 20));
             gr2D.drawString("SCORE", getWidth() - 350, getBounds().height - 55);
+            gr2D.drawString(""+scr, getWidth() - 350, getBounds().height - 35);
 
             synchronized (ballStack) {
                 for (Ball b : ballStack) {
@@ -215,7 +217,7 @@ public class Mapcanvas extends Canvas implements Runnable {
                 gr2D.drawString("TIME:" + String.valueOf(clk.getSegundos()), 30, 625);
                 gover = new SpriteSheetHandler("res/imglevels/gover.png").getImageWithoutCropping();
                 gr2D.drawImage(gover, 0, 0, this);
-                mainPlayer.changeCharacter();
+                mainPlayer.changeCharacter(true);
                 soundGameOver();
 
             } else if (clk.getSegundos() > 0) {
@@ -225,6 +227,20 @@ public class Mapcanvas extends Canvas implements Runnable {
                 gr2D.drawString("TIME:" + String.valueOf(clk.getSegundos()), 30, 625);
             }
         }
+        if(startI && ballStack.empty()){
+            stgclear = new SpriteSheetHandler("res/imglevels/Stageclear.png").getImageWithoutCropping();
+            gr2D.drawImage(stgclear, 0, 0, this);
+            mainPlayer.changeCharacter(false);
+            clk.iniStop();
+            scr=+clk.getSegundos()*150;
+            gr2D.setFont(new Font("Times New Roman", Font.BOLD, 20));
+            gr2D.drawString(""+scr, getWidth() - 350, getBounds().height - 355);
+            soundStageClear();
+        }else{
+            clear=true;
+            stgclear = null;
+        }
+        gr2D.drawImage(stgclear, 0, 0, this);
         bs.show();
         gr2D.dispose();
     }
@@ -236,6 +252,12 @@ public class Mapcanvas extends Canvas implements Runnable {
         }
     }
 
+    private void soundStageClear() {
+        if (clear) {
+            clear = false;
+            playSound("res/levels/sounds/stageClear.wav");
+        }
+    }
     @Override
     public void run() {
         this.createBufferStrategy(2);
