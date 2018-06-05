@@ -1,7 +1,5 @@
 package pang2d;
 
-import mapanel.Mapcanvas;
-
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;

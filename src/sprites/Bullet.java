@@ -7,8 +7,6 @@ import mapanel.Mapcanvas;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Stack;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static pang2d.Utils.playSound;
 

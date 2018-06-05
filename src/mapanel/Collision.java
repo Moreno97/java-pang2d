@@ -7,7 +7,6 @@ import sprites.Bullet;
 import sprites.Player;
 
 import java.util.Stack;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Collision {
 

@@ -14,7 +14,7 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.util.Stack;
 
-import static pang2d.Utils.*;
+import static pang2d.Utils.playSound;
 
 public class Mapcanvas extends Canvas implements Runnable {
     private Clock clk;
@@ -72,24 +72,16 @@ public class Mapcanvas extends Canvas implements Runnable {
 
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_D) {
-                    // Always move player one with keyboard
-                    if (startI & over) {
-                        playerStack.get(0).toRight();
-                    }
+                if (e.getKeyCode() == KeyEvent.VK_D && (startI & over)) {
+                    playerStack.get(0).toRight();
                 }
 
-                if (e.getKeyCode() == KeyEvent.VK_A) {
-                    // Always move player one with keyboard
-                    if (startI & over) {
-                        playerStack.get(0).toLeft();
-                    }
+                if (e.getKeyCode() == KeyEvent.VK_A && (startI & over)) {
+                    playerStack.get(0).toLeft();
                 }
 
-                if (e.getKeyCode() == KeyEvent.VK_K) {
-                    if (startI & over) {
-                        shootBullet(mainPlayer);
-                    }
+                if (e.getKeyCode() == KeyEvent.VK_K && (startI & over)) {
+                    shootBullet(mainPlayer);
                 }
 
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
@@ -143,9 +135,9 @@ public class Mapcanvas extends Canvas implements Runnable {
     }
 
     private void initSprites() {
-
         mainPlayer = new Player((getWidth() / 2) - 20, getBounds().height - 190, 100,
-                100, this, 1, new ImageIcon(new SpriteSheetHandler("res/sprites.png").crop(3, 1, 47, 49)));
+                100, this, 1, new ImageIcon(new SpriteSheetHandler("res/sprites.png")
+                .crop(3, 1, 47, 49)));
         playerStack.add(mainPlayer);
         new Thread(mainPlayer).start();
 
@@ -168,6 +160,7 @@ public class Mapcanvas extends Canvas implements Runnable {
         if (bs == null) {
             return;
         }
+
         if (widthC <= 0 || heightC <= 0) {
             return;
         }
