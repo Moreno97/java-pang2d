@@ -74,17 +74,20 @@ public class Mapcanvas extends Canvas implements Runnable {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_D) {
                     // Always move player one with keyboard
-                    playerStack.get(0).toRight();
+                    if (startI & over) {
+                        playerStack.get(0).toRight();
+                    }
                 }
 
                 if (e.getKeyCode() == KeyEvent.VK_A) {
                     // Always move player one with keyboard
-                    playerStack.get(0).toLeft();
+                    if (startI & over) {
+                        playerStack.get(0).toLeft();
+                    }
                 }
 
                 if (e.getKeyCode() == KeyEvent.VK_K) {
                     if (startI & over) {
-
                         shootBullet(mainPlayer);
                     }
                 }
@@ -113,6 +116,7 @@ public class Mapcanvas extends Canvas implements Runnable {
 
     private void restart() {
         startGame();
+        playerStack.clear(); // Remove all elements from the list first
         mainPlayer = new Player((getWidth() / 2) - 20, getBounds().height - 190, 100,
                 100, this, 1, new ImageIcon(new SpriteSheetHandler("res/sprites.png").crop(3, 1, 47, 49)));
         playerStack.add(mainPlayer);
@@ -200,8 +204,8 @@ public class Mapcanvas extends Canvas implements Runnable {
                 }
             }
 
-             for (Block block : blockStack) {
-                  block.paint(gr2D);
+            for (Block block : blockStack) {
+                block.paint(gr2D);
             }
 
         }
