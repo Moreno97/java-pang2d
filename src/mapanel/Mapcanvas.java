@@ -25,6 +25,7 @@ public class Mapcanvas extends Canvas implements Runnable {
     private boolean boclock = false;
     private static int widthC = 853, heightC = 651;
     private int titbl = 2;
+    private int scr= 0;
     private final Stack<Player> playerStack;
     private final Stack<Bullet> bulletStack;
     private Stack<Block> blockStack;
@@ -190,6 +191,7 @@ public class Mapcanvas extends Canvas implements Runnable {
             }
             gr2D.setFont(new Font("Times New Roman", Font.BOLD, 20));
             gr2D.drawString("SCORE", getWidth() - 350, getBounds().height - 55);
+            gr2D.drawString(""+scr, getWidth() - 350, getBounds().height - 35);
 
             synchronized (ballStack) {
                 for (Ball b : ballStack) {
@@ -229,6 +231,10 @@ public class Mapcanvas extends Canvas implements Runnable {
             stgclear = new SpriteSheetHandler("res/imglevels/Stageclear.png").getImageWithoutCropping();
             gr2D.drawImage(stgclear, 0, 0, this);
             mainPlayer.changeCharacter(false);
+            clk.iniStop();
+            scr=+clk.getSegundos()*150;
+            gr2D.setFont(new Font("Times New Roman", Font.BOLD, 20));
+            gr2D.drawString(""+scr, getWidth() - 350, getBounds().height - 355);
             soundStageClear();
         }else{
             clear=true;
