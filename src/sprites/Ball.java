@@ -10,8 +10,6 @@ import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-//import static mapanel.Collision.checkBall2PlayerCollision;
-
 public class Ball extends Thread {
 
     private int x, y, dx, dy, radio, speedX, speedY, health;
@@ -21,7 +19,6 @@ public class Ball extends Thread {
     private final Stack<Ball> ballStack;
 
     public Ball(int dx, int dy, int x, int y, int health, int speedX, int speedY, Mapcanvas game) {
-//super(dx, dy, x, y);
         this.x = x;
         this.y = y;
         this.dx = dx;
@@ -121,7 +118,6 @@ public class Ball extends Thread {
     public void run() {
         try {
             while (true) {
-                //Collision
                 Collision.checkBall2BlockCollision(this, this.blockStack);
                 Collision.checkBall2WallCollision(this, this.game);
                 Collision.checkBall2BallCollision(this, this.ballStack);

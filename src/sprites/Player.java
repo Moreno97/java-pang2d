@@ -16,11 +16,11 @@ import java.util.logging.Logger;
 public class Player extends Sprite {
 
     private int life;
-    private int dx, dy, x, y;
+    private int dx, dy, x, y, ply;
     private Mapcanvas game;
     private ImageIcon character;
 
-    public Player(int dx, int dy, int x, int y, Mapcanvas game) {
+    public Player(int dx, int dy, int x, int y, Mapcanvas game, int ply, ImageIcon character) {
         super(dx, dy, x, y);
         this.game = game;
         this.life = 3;
@@ -28,8 +28,10 @@ public class Player extends Sprite {
         this.dy = dy;
         this.x = x;
         this.y = y;
-        this.character = new ImageIcon(new SpriteSheetHandler("res/sprites.png").crop(3, 1, 47, 49));
+        this.ply = ply;
+        this.character = character;
     }
+
 
     public int getLife() {
         return life;
@@ -76,25 +78,49 @@ public class Player extends Sprite {
     }
 
     public void toRight() {
-        this.dx = dx + 60;
-        for (int i = 4; i >= 0; i--) {
-            this.character = new ImageIcon(new SpriteSheetHandler("res/sprites.png").crop(3, 1, 47, 49));
-            try {
-                Thread.sleep(25);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        if (ply == 1) {
+            this.dx = dx + 60;
+            for (int i = 4; i >= 0; i--) {
+                this.character = new ImageIcon(new SpriteSheetHandler("res/sprites.png").crop(3, 1, 47, 49));
+                try {
+                    Thread.sleep(25);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            this.dx = dx + 60;
+            for (int i = 4; i >= 0; i--) {
+                this.character = new ImageIcon(new SpriteSheetHandler("res/pj2.png").getImageWithoutCropping());
+                try {
+                    Thread.sleep(25);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
 
     public void toLeft() {
-        this.dx = dx - 60;
-        for (int i = 4; i >= 0; i--) {
-            this.character = new ImageIcon(new SpriteSheetHandler("res/sprites.png").crop(3, 1, 47, 49));
-            try {
-                Thread.sleep(25);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        if (ply == 1) {
+            this.dx = dx - 60;
+            for (int i = 4; i >= 0; i--) {
+                this.character = new ImageIcon(new SpriteSheetHandler("res/sprites.png").crop(3, 1, 47, 49));
+                try {
+                    Thread.sleep(25);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            this.dx = dx - 60;
+            for (int i = 4; i >= 0; i--) {
+                this.character = new ImageIcon(new SpriteSheetHandler("res/pj2.png").getImageWithoutCropping());
+                try {
+                    Thread.sleep(25);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
