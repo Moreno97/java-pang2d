@@ -24,7 +24,7 @@ public class Bullet extends Thread {
     private ImageIcon bullet;
     private Mapcanvas mapcanvas;
 
-    public Bullet(float dx, float dy, float speedX, float speedY, float radio, float mass, Mapcanvas mapcanvas, Stack<Bullet> bulletStack, Stack<Block> blockStack, Stack<Ball> ballStack) {
+    public Bullet(float dx, float dy, float speedX, float speedY, float radio, float mass, Mapcanvas mapcanvas) {
         this.dx = dx;
         this.dy = dy;
         this.speedX = speedX;
@@ -32,9 +32,9 @@ public class Bullet extends Thread {
         this.radio = radio;
         this.mass = mass;
         this.mapcanvas = mapcanvas;
-        this.bulletStack = bulletStack;
-        this.blockStack = blockStack;
-        this.ballStack = ballStack;
+        this.bulletStack = mapcanvas.getBullets();
+        this.blockStack = mapcanvas.getBlocks();
+        this.ballStack = mapcanvas.getBalls();
         this.bullet = new ImageIcon(new SpriteSheetHandler("res/clash2.png")
                 .getImageWithoutCropping());
     }
@@ -108,14 +108,13 @@ public class Bullet extends Thread {
     @Override
     public void run() {
         while (true) {
-            Collision.checkBullet2WallCollision(this, this.mapcanvas);
-            Collision.checkBullet2BlockCollision(this, this.blockStack);
-            Collision.checkBullet2BallCollision(this, this.mapcanvas);
-            restDy();
             try {
+                Collision.checkBullet2WallCollision(this, this.mapcanvas);
+                Collision.checkBullet2BlockCollision(this, this.blockStack);
+                Collision.checkBullet2BallCollision(this, this.mapcanvas);
+                restDy();
                 Thread.sleep(20);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Bullet.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
             }
         }
     }

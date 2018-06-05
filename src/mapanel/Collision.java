@@ -7,6 +7,7 @@ import sprites.Bullet;
 import sprites.Player;
 
 import java.util.Stack;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Collision {
 
@@ -128,24 +129,25 @@ public class Collision {
 //        }
 //    }
 
-    public static void checkBall2BallCollision(Ball b, Stack<Ball> ballStack) {
+    public synchronized static void checkBall2BallCollision(Ball b, Stack<Ball> ballStack) {
         for (Ball ball : ballStack) {
             if (b != ball) {
                 Circle c = new Circle(b.getDx(), b.getDy(), b.getRadio());
+                Circle d = new Circle(ball.getDx(), ball.getDy(), ball.getRadio());
 
-                if (c.intersects(ball.getDx(), ball.getDy(), ball.getX(), ball.getY())) {
+                if (c.intersects(d.getBoundsInLocal())) {
                     if (b.getDx() <= ball.getDx() || b.getDx() >= ball.getX() + ball.getDx()) {
                         b.setSpeedX((int) -b.getSpeedX());
                         ball.setSpeedX((int) -ball.getSpeedX());
                     }
+
                     if (b.getDy() <= ball.getDy() || b.getDy() >= ball.getY() + ball.getDy()) {
-                        b.setspeedY((int) -b.getSpeedY());
-                        ball.setspeedY((int) -ball.getSpeedY());
+                        b.setSpeedY((int) -b.getSpeedY());
+                        ball.setSpeedY((int) -ball.getSpeedY());
                     }
                 }
 
             }
-
 
         }
 
@@ -168,29 +170,32 @@ public class Collision {
         }
     }
 
-    public synchronized static void checkBullet2BallCollision(Bullet i, Mapcanvas game) {
+    public static void checkBullet2BallCollision(Bullet i, Mapcanvas game) {
         Circle c = new Circle(i.getDx(), i.getDy(), i.getRadio());
 
         Stack<Ball> pila = game.getBalls();
 
-        for (Ball b : pila) {
-            if (c.intersects(b.getDx(), b.getDy(), b.getX(), b.getY())) {
-                if (i.getDx() <= b.getDx() || i.getDx() >= b.getX() + b.getDx()) {
-                    i.setIsCollided(true);
-                    i.remove();
-                    b.remove();
+        synchronized (pila) {
+            for (Ball b : pila) {
+                if (c.intersects(b.getDx(), b.getDy(), b.getX(), b.getY())) {
+                    if (i.getDx() <= b.getDx() || i.getDx() >= b.getX() + b.getDx()) {
+                        i.setIsCollided(true);
+                        i.remove();
+                        b.remove();
+
+                    }
+
+                    if (i.getDy() <= b.getDy() || i.getDy() >= b.getY() + b.getDy()) {
+                        i.setIsCollided(true);
+                        i.remove();
+                        b.remove();
+
+                    }
 
                 }
-
-                if (i.getDy() <= b.getDy() || i.getDy() >= b.getY() + b.getDy()) {
-                    i.setIsCollided(true);
-                    i.remove();
-                    b.remove();
-
-                }
-
             }
         }
+
     }
 
     public static void checkBullet2WallCollision(Bullet i, Mapcanvas game) {
@@ -201,8 +206,8 @@ public class Collision {
     }
 
     public static void checkBall2WallCollision(Ball i, Mapcanvas game) {
-        if (i.getDy() + i.getRadio() >= (game.getHeight() - 10) || i.getDy() + i.getRadio() < 20) {
-            i.setspeedY((int) -i.getSpeedY());
+        if (i.getDy() + i.getRadio() >= (game.getHeight() - 140) || i.getDy() + i.getRadio() < 20) {
+            i.setSpeedY((int) -i.getSpeedY());
         }
 
         if (i.getDx() + i.getRadio() >= (game.getWidth() - 10) || i.getDx() + i.getRadio() < 20) {
@@ -211,24 +216,18 @@ public class Collision {
         }
     }
 
-    public static void checkBall2PlayerCollision(Stack<Ball> ballStack, Player cg) {
+    public static synchronized void checkBall2PlayerCollision(Ball b, Stack<Player> playerStack) {
+        Circle c = new Circle(b.getDx(), b.getDy(), b.getRadio());
 
-        for (Ball b : ballStack) {
-
-            Circle c = new Circle(b.getDx(), b.getDy(), b.getRadio());
-
-            if (c.intersects(cg.getDx(), cg.getDy(), cg.getX(), cg.getY())) {
-                if (b.getDx() <= cg.getDx() || b.getDx() >= cg.getX() + cg.getDx()) {
-                    b.setSpeedX((int) -b.getSpeedX());
-                }
-                if (b.getDy() <= cg.getDy() || b.getDy() >= cg.getY() + cg.getDy()) {
-                    b.setspeedY((int) -b.getSpeedY());
-                }
-                cg.setLife(cg.getLife() - 1);
-                System.out.println(cg.getLife());
+        playerStack.stream().filter((obs) -> (c.intersects(obs.getDx(), obs.getDy(), obs.getX(), obs.getY()))).map((obs) -> {
+            if (b.getDx() <= obs.getDx() || b.getDx() >= obs.getX() + obs.getY()) {
+                b.setSpeedX((int) -b.getSpeedX());
+                obs.setLife(obs.getLife() - 1);
             }
-        }
-
+            return obs;
+        }).filter((obs) -> (b.getDy() <= obs.getDy() || b.getDy() >= obs.getX() + obs.getDy())).forEachOrdered((_item) -> {
+            b.setSpeedY((int) -b.getSpeedY());
+        });
     }
 
     public static void checkPlayer2WallCollision(Player cg, Mapcanvas game) {
@@ -241,24 +240,17 @@ public class Collision {
         }
     }
 
-    public static void checkBall2BlockCollision(Ball b, Stack<Block> blockStack) {
+    public synchronized static void checkBall2BlockCollision(Ball b, Stack<Block> blockStack) {
         Circle c = new Circle(b.getDx(), b.getDy(), b.getRadio());
 
-        for (Block m : blockStack) {
-            if (c.intersects(m.getDx(), m.getDy(), m.getWidth(), m.getHeight())) {
-
-                //b.setDx((int)(b.getDx() - b.getSpeedX()) / 20);
-                //b.setDy((int)(b.getDy() - b.getSpeedY()) / 20);
-
-                if (b.getDx() <= m.getDx() || b.getDx() >= m.getWidth() + m.getDx()) {
-                    b.setSpeedX((int) -b.getSpeedX());
-                }
-                if (b.getDy() <= m.getDy() || b.getDy() >= m.getWidth() + m.getDy()) {
-                    b.setspeedY((int) -b.getSpeedY());
-                }
-
+        blockStack.stream().filter((obs) -> (c.intersects(obs.getDx(), obs.getDy(), obs.getWidth(), obs.getHeight()))).map((obs) -> {
+            if (b.getDx() <= obs.getDx() || b.getDx() >= obs.getWidth() + obs.getHeight()) {
+                b.setSpeedX((int) -b.getSpeedX());
             }
-        }
+            return obs;
+        }).filter((obs) -> (b.getDy() <= obs.getDy() || b.getDy() >= obs.getWidth() + obs.getDy())).forEachOrdered((_item) -> {
+            b.setSpeedY((int) -b.getSpeedY());
+        });
 
 
     }

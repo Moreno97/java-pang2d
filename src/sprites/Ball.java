@@ -18,10 +18,7 @@ public class Ball extends Thread {
     private Stack<Block> blockStack;
     private final Stack<Ball> ballStack;
 
-
-    public Ball(int dx, int dy, int x, int y, int health, int speedX, int speedY, Mapcanvas game,
-                Stack<Block> blockStack, Stack<Ball> ballStack) {
-        //super(dx, dy, x, y);
+    public Ball(int dx, int dy, int x, int y, int health, int speedX, int speedY, Mapcanvas game) {
         this.x = x;
         this.y = y;
         this.dx = dx;
@@ -31,8 +28,8 @@ public class Ball extends Thread {
         this.speedX = speedX;
         this.speedY = speedY;
         this.game = game;
-        this.blockStack = blockStack;
-        this.ballStack = ballStack;
+        this.blockStack = game.getBlocks();
+        this.ballStack = game.getBalls();
         this.img = new ImageIcon(new SpriteSheetHandler("res/ballon.png").crop(0, 0, 39, 40));
     }
 
@@ -88,7 +85,7 @@ public class Ball extends Thread {
         this.speedX = i;
     }
 
-    public void setspeedY(int i) {
+    public void setSpeedY(int i) {
         this.speedY = i;
     }
 
@@ -121,10 +118,10 @@ public class Ball extends Thread {
     public void run() {
         try {
             while (true) {
-                //Collision
-                Collision.checkBall2BlockCollision(this, blockStack);
+                Collision.checkBall2BlockCollision(this, this.blockStack);
                 Collision.checkBall2WallCollision(this, this.game);
-                Collision.checkBall2BallCollision(this, ballStack);
+                Collision.checkBall2BallCollision(this, this.ballStack);
+                Collision.checkBall2PlayerCollision(this, this.game.getPlayers());
 
                 movementX();
                 movementY();
