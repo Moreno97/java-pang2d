@@ -124,26 +124,36 @@ public class Player extends Sprite {
         }
     }
 
-    public void changeCharacter() {
+    public void changeCharacter(boolean state) {
         //this.dx = dx - 60;
-        this.character = new ImageIcon(new SpriteSheetHandler("res/sprites.png").crop(4, 1, 47, 49));
-        try {
-            Thread.sleep(25);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void run() {
-        try {
-            while (true) {
-                Collision.checkPlayer2WallCollision(this, game);
-                Thread.sleep(80);
+        if (state) {
+            this.character = new ImageIcon(new SpriteSheetHandler("res/sprites.png").crop(4, 1, 47, 49));
+            try {
+                Thread.sleep(25);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        } catch (InterruptedException e) {
-            Logger.getLogger(Player.class.getName()).log(Level.SEVERE, null, e);
+
+        }else{
+                this.character = new ImageIcon(new SpriteSheetHandler("res/sprites.png").crop(5, 1, 47, 49));
+                try {
+                    Thread.sleep(25);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
         }
     }
 
-}
+        @Override
+        public void run () {
+            try {
+                while (true) {
+                    Collision.checkPlayer2WallCollision(this, game);
+                    Thread.sleep(80);
+                }
+            } catch (InterruptedException e) {
+                Logger.getLogger(Player.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
+
+    }
