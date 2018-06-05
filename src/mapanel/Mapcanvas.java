@@ -13,7 +13,6 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
-import java.util.HashSet;
 import java.util.Stack;
 
 import static pang2d.Utils.playSound;
@@ -52,7 +51,7 @@ public class Mapcanvas extends Canvas implements Runnable {
                 0, 8, 10, 1, this);
 
         // If bullets on screen is more than 3 multiplied by each player, don't allow players to shoot more
-        if (bulletStack.size() <= playerStack.size() * 2) {
+        if (bulletStack.size() <= playerStack.size() * 3) {
             bulletStack.push(b);
             b.start();
             playSound("res/sounds/weapon.wav");
@@ -186,7 +185,12 @@ public class Mapcanvas extends Canvas implements Runnable {
             gr2D.setColor(Color.WHITE);
 
             gr2D.setFont(new Font("Times New Roman", Font.BOLD, 30));
-            gr2D.drawString("X " + mainPlayer.getLife(), getWidth() - 78, getBounds().height - 28);
+
+            if (startI & over) {
+                gr2D.drawString("X " + mainPlayer.getLife(), getWidth() - 78, getBounds().height - 28);
+            } else {
+                gr2D.drawString("X 0", getWidth() - 78, getBounds().height - 28);
+            }
 
             if (playerStack.size() > 1) {
                 gr2D.drawImage(lifechar2, getWidth() - 120, getBounds().height - 40, this);
@@ -226,9 +230,10 @@ public class Mapcanvas extends Canvas implements Runnable {
                 gr2D.setColor(Color.WHITE);
                 gr2D.setFont(new Font("Times New Roman", Font.BOLD, 40));
                 gr2D.drawString("TIME:" + String.valueOf(clk.getSegundos()), 30, 625);
-            } else if (ballStack.size() == 0) {
+            }
+
+            if (ballStack.size() == 0) {
                 // TODO: Show win screen
-                gover = new SpriteSheetHandler("res/imglevels/gover.png").getImageWithoutCropping();
             }
         }
         bs.show();
